@@ -2,15 +2,21 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
+
     <link rel="stylesheet" href="/Login Page/login.css">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
 <body>
+
+    <!-- ===================== NAVBAR ===================== -->
 
     <header class="navbar">
 
@@ -41,7 +47,11 @@
 
                 <button class="icon-btn1">🔍</button>
 
-                <button class="icon-btn1 cart1">🛒<span class="badge">2</span></button>
+                <button class="icon-btn1 cart1">🛒
+
+                    <span class="badge">2</span>
+
+                </button>
 
                 <button class="login-btn1">Login</button>
 
@@ -53,11 +63,13 @@
 
     </header>
 
-    <!-- ***************************************************************************************************************** -->
+    <!-- ===================== LOGIN SECTION ===================== -->
 
     <section class="login-section">
 
         <div class="login-container">
+
+            <!-- Left Side -->
 
             <div class="login-image">
 
@@ -73,23 +85,41 @@
 
             </div>
 
+            <!-- Right Side -->
+
             <div class="login-form">
 
-                <h2>Welcome Back</h2>
+                <h2 id="loginTitle">Welcome Back</h2>
 
-                <p>Login to continue shopping.</p>
+                <p id="loginDescription">Login to continue shopping.</p>
+
+                <!-- Login As -->
+
+                <p class="login-as">Login As</p>
+
+                <!-- User / Admin Tabs -->
+
+                <div class="login-tabs">
+
+                    <button type="button" class="tab-btn active" id="userTab">User</button>
+
+                    <button type="button" class="tab-btn" id="adminTab">Admin</button>
+
+                </div>
+
+                <!-- Login Form -->
 
                 <form id="loginForm">
 
-                    <label>Email Address</label>
+                    <label> Email Address</label>
 
-                    <input type="email" id="email" class="form-input" placeholder="Enter your email">
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
 
                     <label>Password</label>
 
                     <div class="password-box">
 
-                        <input type="password" class="form-input" id="password" placeholder="Enter your password">
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
 
                         <i class="fa-solid fa-eye" id="togglePassword"></i>
 
@@ -97,27 +127,35 @@
 
                     <div class="login-options">
 
-                        <label><input type="checkbox">Remember Me</label>
+                        <label>
 
-                        <a href="/Forgot Password Page/forgot-page.html">Forgot Password?</a>
+                            <input type="checkbox">Remember Me
+
+                        </label>
+
+                        <a href="/Forgot Password Page/forgot-page.html" id="forgotPasswordLink">Forgot Password?</a>
 
                     </div>
 
-                    <button type="submit" class="login-btn" id="login-btn"> Login</button>
+                    <button type="submit" class="login-btn" id="login-btn">Login</button>
 
                 </form>
 
-                <p class="register-link">Don't have an account?<a href="/Register Page/register.html">Sign Up</a></p>
+                <!-- Register -->
+
+                <p class="register-link" id="registerLink">
+
+                    Don't have an account?
+
+                    <a href="/Register Page/register.html">Sign Up</a>
+
+                </p>
 
             </div>
 
         </div>
 
     </section>
-
-
-
-
 
     <script src="/Login Page/login.js"></script>
 

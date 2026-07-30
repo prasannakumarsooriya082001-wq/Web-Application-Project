@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings</title>
+
+    <link rel="stylesheet" href="/Admin-Settings/admin-setting.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">L</div>
+
+                <h2>LuxeCraft</h2>
+
+            </div>
+
+            <ul class="sidebar-menu">
+
+                <li>
+
+                    <a href="/Dashboard/dashboard.html">
+
+                        <i class="fa-solid fa-house"></i>Dashboard
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Admin-Products/admin-products.html">
+
+                        <i class="fa-solid fa-box"></i>Products
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Admin-Orders/admin-orders.html">
+
+                        <i class="fa-solid fa-cart-shopping"></i>Orders
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Admin-Customers/admin-customers.html">
+
+                        <i class="fa-solid fa-users"></i>Customers
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Admin-Categories/admin-categories.html">
+
+                        <i class="fa-solid fa-layer-group"></i>Categories
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Admin-Reports/admin-reports.html">
+
+                        <i class="fa-solid fa-chart-line"></i>Reports
+
+                    </a>
+
+                </li>
+
+                <li class="active">
+
+                    <a href="/Admin-Settings/admin-setting.html">
+
+                        <i class="fa-solid fa-gear"></i>Settings
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="/Login Page/login.html">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- *************************************************************************************** -->
+
+        <main class="main-content">
+
+            <!-- Header -->
+
+            <div class="top-header">
+
+                <div>
+
+                    <h1>Settings</h1>
+
+                    <p>Manage your account settings</p>
+
+                </div>
+
+            </div>
+
+            <!-- ****************************************************************************************** -->
+
+            <section class="card">
+
+                <h2><i class="fa-solid fa-user"></i>Admin Profile</h2>
+
+                <form id="profileForm">
+
+                    <div class="input-group">
+
+                        <label for="name">Full Name</label>
+
+                        <input type="text" id="name" value="Prasanna Kumar">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="email">Email Address</label>
+
+                        <input type="email" id="email" value="prasanna@gmail.com">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="phone">Phone Number</label>
+
+                        <input type="text" id="phone" value="+91 9876543210">
+
+                    </div>
+
+                    <button type="submit" id="saveProfileBtn">
+
+                        <i class="fa-solid fa-floppy-disk"></i>Save Profile
+
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- ************************************************************************************************* -->
+
+            <section class="card">
+
+                <h2><i class="fa-solid fa-lock"></i>Change Password</h2>
+
+                <form id="passwordForm">
+
+                    <div class="input-group">
+
+                        <label for="currentPassword">Current Password</label>
+
+                        <div class="password-box">
+
+                            <input type="password" id="currentPassword" placeholder="Enter Current Password">
+
+                            <i class="fa-solid fa-eye toggle-password"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="newPassword">New Password</label>
+
+                        <div class="password-box">
+
+                            <input type="password" id="newPassword" placeholder="Enter New Password">
+
+                            <i class="fa-solid fa-eye toggle-password"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label for="confirmPassword">Confirm Password</label>
+
+                        <div class="password-box">
+
+                            <input type="password" id="confirmPassword" placeholder="Confirm New Password">
+
+                            <i class="fa-solid fa-eye toggle-password"></i>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" id="updatePasswordBtn">
+
+                        <i class="fa-solid fa-key"></i>Update Password
+
+                    </button>
+
+                </form>
+
+            </section>
+
+            <!-- **************************************************************************** -->
+
+            <section class="card">
+
+                <h2><i class="fa-solid fa-floppy-disk"></i>Save Settings</h2>
+
+                <p>Save all changes made in your account settings.</p>
+
+                <button id="saveSettingsBtn">
+
+                    <i class="fa-solid fa-check"></i>Save All Settings
+
+                </button>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="/Admin-Settings/admin-setting.js"></script>
+
+</body>
+
+</html>
