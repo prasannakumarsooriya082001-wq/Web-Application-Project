@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="/Checkout/checkout.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="container">
+
+            <div class="logo">
+
+                <div class="logo-icon">L</div>
+
+                <h2>LuxeCraft</h2>
+
+            </div>
+
+            <nav>
+
+                <ul class="nav-links">
+
+                    <li><a href="/Main Page/index.html">Home</a></li>
+                    <li><a href="/Product Page/products.html">Sofas</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+
+                </ul>
+
+            </nav>
+
+            <div class="nav-right">
+
+                <button class="icon-btn1">🔍</button>
+
+                <button class="icon-btn1 cart1">🛒<span class="badge">2</span></button>
+
+                <button class="login-btn1">Login</button>
+
+                <button class="signup-btn1">Sign Up</button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <section class="breadcrumb">
+
+        <div class="breadcrumb-container">
+
+            <a href="#">Home</a>
+
+            <span>/</span>
+
+            <a href="#">Cart</a>
+
+            <span>/</span>
+
+            <span>Checkout</span>
+
+        </div>
+
+    </section>
+
+    <section class="checkout-section">
+
+        <div class="checkout-container">
+
+            <div class="checkout-form">
+
+                <h2>Billing Details</h2>
+
+                <form id="checkoutForm">
+
+                    <div class="row">
+
+                        <div class="input-box">
+
+                            <label>First Name</label>
+
+                            <input type="text" placeholder="Enter First Name" required>
+
+                        </div>
+
+                        <div class="input-box">
+
+                            <label>Last Name</label>
+
+                            <input type="text" placeholder="Enter Last Name" required>
+
+                        </div>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <label>Email Address</label>
+
+                        <input type="email" placeholder="Enter Email" required>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <label>Phone Number</label>
+
+                        <input type="tel" placeholder="Enter Phone Number" required>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <label>Street Address</label>
+
+                        <input type="text" placeholder="Enter Address" required>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-box">
+
+                            <label>City</label>
+
+                            <input type="text" placeholder="City">
+
+                        </div>
+
+                        <div class="input-box">
+
+                            <label>State</label>
+
+                            <input type="text" placeholder="State">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-box">
+
+                            <label>ZIP Code</label>
+
+                            <input type="text" placeholder="ZIP Code">
+
+                        </div>
+
+                        <div class="input-box">
+
+                            <label>Country</label>
+
+                            <input type="text" placeholder="Country">
+
+                        </div>
+
+                    </div>
+
+                    <div class="payment">
+
+                        <h2>Payment Method</h2>
+
+                        <label>
+
+                            <input type="radio" name="payment" checked>
+
+                            Credit / Debit Card
+
+                        </label>
+
+                        <label>
+
+                            <input type="radio" name="payment">
+
+                            UPI
+
+                        </label>
+
+                        <label>
+
+                            <input type="radio" name="payment">
+
+                            Cash On Delivery
+
+                        </label>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="order-summary">
+
+                <h2>Order Summary</h2>
+
+                <div class="summary-item">
+
+                    <img src="/images/sofa1.jpg" alt="">
+
+                    <div>
+
+                        <h4>Modern Luxury Sofa</h4>
+
+                        <p>Qty : 1</p>
+
+                    </div>
+
+                    <span>$899</span>
+
+                </div>
+
+                <div class="summary-item">
+
+                    <img src="/images/sofa1.jpg" alt="">
+
+                    <div>
+
+                        <h4>Royal Sofa</h4>
+
+                        <p>Qty : 1</p>
+
+                    </div>
+
+                    <span>$1299</span>
+
+                </div>
+
+                <hr>
+
+                <div class="price-row">
+
+                    <span>Subtotal</span>
+
+                    <span>$2198</span>
+
+                </div>
+
+                <div class="price-row">
+
+                    <span>Shipping</span>
+
+                    <span>$50</span>
+
+                </div>
+
+                <div class="price-row">
+
+                    <span>Discount</span>
+
+                    <span>-$100</span>
+
+                </div>
+
+                <hr>
+
+                <div class="price-row total">
+
+                    <span>Total</span>
+
+                    <span>$2148</span>
+
+                </div>
+
+                <button class="place-order">
+
+                    Place Order
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+
+        
+
+    </footer>
+
+    <script src="/Checkout/checkout.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeCraft Admin Dashboard</title>
+
+    <link rel="stylesheet" href="/Frontend Program/Dashboard/dashboard.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">L</div>
+
+                <h2>LuxeCraft</h2>
+
+            </div>
+
+            <ul class="sidebar-menu">
+
+                <li class="active">
+                    <a href="/Dashboard/dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Products/admin-products.html">
+                        <i class="fa-solid fa-box"></i>
+                        Products
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Orders/admin-orders.html">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Orders
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Customers/admin-customers.html">
+                        <i class="fa-solid fa-users"></i>
+                        Customers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Categories/admin-categories.html">
+                        <i class="fa-solid fa-layer-group"></i>
+                        Categories
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Reports/admin-reports.html">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Reports
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Settings/admin-setting.html">
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Login Page/login.html">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- ******************************************************************************************************* -->
+
+        <main class="main-content">
+
+            <header class="top-header">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Welcome back, Admin 👋</p>
+                </div>
+
+                <div class="header-right">
+
+                    <span>27 July 2026</span>
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    <div class="admin-profile">
+                        <i class="fa-solid fa-user"></i>
+                        Admin
+                    </div>
+
+                </div>
+
+            </header>
+
+<!-- *************************************************************************************************** -->
+
+            <section class="dashboard-cards">
+
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Products</h3>
+                        <p>125</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Orders</h3>
+                        <p>58</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Customers</h3>
+                        <p>430</p>
+                    </div>
+                </div>
+
+                <div class="card revenue-card">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Revenue</h3>
+                        <p>₹2,45,000</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ******************************************************************************************* -->
+
+            <section class="recent-orders">
+
+                <div class="section-header">
+
+                    <h2>Recent Orders</h2>
+
+                    <a href="orders.html">View All</a>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>ORD001</td>
+                                <td>Prasanna</td>
+                                <td>Luxury Sofa</td>
+                                <td><span class="status delivered">Delivered</span></td>
+                                <td>₹89,999</td>
+                            </tr>
+
+                            <tr>
+                                <td>ORD002</td>
+                                <td>Rahul</td>
+                                <td>Recliner Sofa</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>₹54,999</td>
+                            </tr>
+
+                            <tr>
+                                <td>ORD003</td>
+                                <td>Priya</td>
+                                <td>Wooden Sofa</td>
+                                <td><span class="status processing">Processing</span></td>
+                                <td>₹42,999</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="/Dashboard/dashboard.js"></script>
+
+</body>
+
+</html>

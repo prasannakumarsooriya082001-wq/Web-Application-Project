@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Details</title>
+
+    <link rel="stylesheet" href="/Admin-Orders-Details/admin-orders-details.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <h1>Order Details</h1>
+
+            <a href="/Admin-Orders/admin-orders.html" class="back-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Orders
+
+            </a>
+
+        </header>
+
+        <!-- Order Summary -->
+
+        <div class="card">
+
+            <h2>Order Information</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <strong>Order ID</strong>
+                    <p class="order-id">ORD001</p>
+                </div>
+
+                <div>
+                    <strong>Order Date</strong>
+                    <p>28 Jul 2026</p>
+                </div>
+
+                <div>
+                    <strong>Delivery Date</strong>
+                    <p>31 Jul 2026</p>
+                </div>
+
+                <div>
+                    <strong>Status</strong>
+
+                    <span class="status status-badge delivered">Delivered</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Customer -->
+
+        <div class="card">
+
+            <h2>Customer Information</h2>
+
+            <div class="details-grid">
+
+                <div>
+                    <div class="item">
+                        <h4>Name</h4>
+                        <p>Prasanna Kumar</p>
+                    </div>
+
+                    <div class="item">
+                        <h4>Email</h4>
+                        <p>prasanna@gmail.com</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="item">
+                        <h4>Phone</h4>
+                        <p>+91 9876543210</p>
+                    </div>
+
+                    <div class="item">
+                        <h4>Address</h4>
+                        <p>
+                            12, Anna Nagar,<br>
+                            Madurai,<br>
+                            Tamil Nadu - 625020
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Product -->
+
+        <div class="card">
+
+            <h2>Product Information</h2>
+
+            <div class="product-box">
+
+                <img class="product-image" src="/images/MainSofaImage.jpg">
+
+                <div>
+
+                    <h3>Luxury Leather Sofa</h3>
+
+                    <p>Quantity : 1</p>
+
+                    <p>Price : ₹89,999</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Payment -->
+
+        <div class="card">
+
+            <h2>Payment Information</h2>
+
+            <div class="details-grid">
+
+                <div>
+
+                    <strong>Payment Method</strong>
+
+                    <p>UPI</p>
+
+                </div>
+
+                <div>
+
+                    <strong>Payment Status</strong>
+
+                    <span class="paid">
+
+                        Paid
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <strong>Total Amount</strong>
+
+                    <h2>₹89,999</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Update -->
+
+        <div class="card">
+
+            <h2>Update Order Status</h2>
+
+            <select id="orderStatus">
+
+                <option>Pending</option>
+
+                <option>Processing</option>
+
+                <option selected>Delivered</option>
+
+                <option>Cancelled</option>
+
+            </select>
+
+            <button id="updateBtn">
+
+                Update Status
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="/Admin-Orders-Details/admin-orders-details.js"></script>
+
+</body>
+
+</html>

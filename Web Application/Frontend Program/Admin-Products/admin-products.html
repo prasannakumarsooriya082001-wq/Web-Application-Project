@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products Management</title>
+
+    <link rel="stylesheet" href="/Admin-Products/admin-products.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-icon">L</div>
+
+                <h2>LuxeCraft</h2>
+
+            </div>
+
+            <ul class="sidebar-menu">
+
+                <li>
+                    <a href="/Dashboard/dashboard.html">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="/Admin-Products/admin-products.html">
+                        <i class="fa-solid fa-box"></i>
+                        Products
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Orders/admin-orders.html">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Orders
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Customers/admin-customers.html">
+                        <i class="fa-solid fa-users"></i>
+                        Customers
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin-Categories/admin-categories.html">
+                        <i class="fa-solid fa-layer-group"></i>
+                        Categories
+                    </a>
+                </li>
+
+                <li>
+                    <a href="reports.html">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Reports
+                    </a>
+                </li>
+
+                <li>
+                    <a href="settings.html">
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Login Page/login.html">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Main Content -->
+
+        <main class="main-content">
+
+            <div class="top-header">
+
+                <div>
+
+                    <h1>Products Management</h1>
+
+                    <p>Manage all sofa products.</p>
+
+                </div>
+
+                <button class="add-product-btn" id="add-product">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Product
+                </button>
+
+            </div>
+
+            <!-- Search -->
+
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input type="text" id="search" placeholder="Search Product">
+
+                </div>
+
+                <select id="category">
+                    <option value="all">All Categories</option>
+                    <option value="Luxury">Luxury Sofa</option>
+                    <option value="Wooden">Wooden Sofa</option>
+                    <option value="Recliner">Recliner Sofa</option>
+                </select>
+
+            </div>
+
+            <!-- Product Table -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Image</th>
+
+                            <th>Product</th>
+
+                            <th>Category</th>
+
+                            <th>Price</th>
+
+                            <th>Stock</th>
+
+                            <th>Status</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <img src="/images/MainSofaImage.jpg" class="product-image">
+                            </td>
+
+                            <td>Luxury Leather Sofa</td>
+
+                            <td>Luxury Sofa</td>
+
+                            <td>₹89,999</td>
+
+                            <td>20</td>
+
+                            <td>
+                                <span class="available">
+                                    Available
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <a href="/Edit-Products/edit-product.html" class="edit-btn">
+
+                                    <i class="fa-solid fa-pen"></i>
+
+                                </a>
+
+                                <button class="delete-btn">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/Admin-Products/admin-products.js"></script>
+
+</body>
+
+</html>
