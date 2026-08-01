@@ -1,6 +1,9 @@
-// =========================
+console.log("JS Loaded Successfully");
+
+
+// ==========================
 // Image Preview
-// =========================
+// ==========================
 
 const productImage = document.getElementById("productImage");
 const previewImage = document.getElementById("previewImage");
@@ -10,95 +13,151 @@ productImage.addEventListener("change", function () {
     const file = this.files[0];
 
     if (file) {
-
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-
-            previewImage.src = e.target.result;
-
-        }
-
-        reader.readAsDataURL(file);
-
+        previewImage.src = URL.createObjectURL(file);
     }
 
 });
 
 
-// =========================
-// Form Validation
-// =========================
+// ==========================
+// Load Categories
+// ==========================
 
-const form = document.getElementById("productForm");
+const categorySelect = document.getElementById("category");
 
-form.addEventListener("submit", function (e) {
+const categoryApi = "http://localhost:8080/category";
 
-    e.preventDefault();
+window.onload = function () {
 
-    const productName = document.getElementById("productName").value.trim();
-    const price = document.getElementById("price").value;
-    const stock = document.getElementById("stock").value;
-    const brand = document.getElementById("brand").value.trim();
-    const material = document.getElementById("material").value.trim();
-    const color = document.getElementById("color").value.trim();
-    const description = document.getElementById("description").value.trim();
+    console.log("Window Loaded");
 
-    if (
-        productName === "" ||
-        price === "" ||
-        stock === "" ||
-        brand === "" ||
-        material === "" ||
-        color === "" ||
-        description === ""
-    ) {
+    loadCategories();
 
-        alert("Please fill all fields.");
+};
 
-        return;
 
-    }
+function loadCategories() {
 
-    if (price <= 0) {
+    console.log("loadCategories Called");
 
-        alert("Enter a valid price.");
+    fetch(categoryApi + "/getAll")
 
-        return;
+        .then(response => {
 
-    }
+            console.log("Status :", response.status);
 
-    if (stock < 0) {
+            return response.json();
 
-        alert("Stock cannot be negative.");
+        })
 
-        return;
+        .then(data => {
 
-    }
+            console.log("Categories :", data);
 
-    alert("✅ Product Added Successfully");
+            categorySelect.innerHTML =
+                '<option value="">Select Category</option>';
 
-    form.reset();
+            data.forEach(category => {
 
-    previewImage.src = "/images/upload-placeholder.png";
+                categorySelect.innerHTML += `
+                    <option value="${category.categoryId}">
+                        ${category.categoryName}
+                    </option>
+                `;
+
+            });
+
+            console.log("Categories Loaded Successfully");
+
+        })
+
+        .catch(error => {
+
+            console.error("Category Error :", error);
+
+        });
+
+}
+
+
+// ==========================
+// Save Product
+// ==========================
+const saveBtn = document.getElementById("saveBtn");
+
+saveBtn.addEventListener("click", function () {
+
+    console.log("🔥 SAVE BUTTON CLICKED");
+
+    const formData = new FormData();
+
+    formData.append(
+        "productName",
+        document.getElementById("productName").value
+    );
+
+    formData.append(
+        "description",
+        document.getElementById("description").value
+    );
+
+    formData.append(
+        "price",
+        document.getElementById("price").value
+    );
+
+    formData.append(
+        "stockQuantity",
+        document.getElementById("stockQuantity").value
+    );
+
+    formData.append(
+        "status",
+        document.getElementById("status").value
+    );
+
+    formData.append(
+        "categoryId",
+        document.getElementById("category").value
+    );
+
+    formData.append(
+        "image",
+        document.getElementById("productImage").files[0]
+    );
+
+    console.log("🔥 BEFORE FETCH");
+
+    fetch("http://localhost:8080/product/add", {
+
+        method: "POST",
+        body: formData
+
+    })
+
+        .then(response => {
+
+            console.log("Response Status :", response.status);
+
+            return response.text();
+
+        })
+
+        .then(message => {
+
+            console.log("SERVER MESSAGE :", message);
+
+            alert(message);
+
+        })
+
+        .catch(error => {
+
+            console.error("ERROR :", error);
+
+        });
 
 });
 
 
-// =========================
-// Cancel Button
-// =========================
 
-const cancelBtn = document.querySelector(".cancel-btn");
-
-cancelBtn.addEventListener("click", function () {
-
-    const confirmCancel = confirm("Are you sure you want to cancel?");
-
-    if (confirmCancel) {
-
-        window.location.href = "/Admin-Products/admin-products.html";
-
-    }
-
-});

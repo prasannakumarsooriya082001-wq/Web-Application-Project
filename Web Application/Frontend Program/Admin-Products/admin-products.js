@@ -1,30 +1,157 @@
+console.log("Admin Products JS Loaded");
+
+const productApi = "http://localhost:8080/product";
+
+let allProducts = [];
+
+
+// ================================
+// Load Products
+// ================================
+
+window.onload = function () {
+
+    console.log("Products Page Loaded");
+
+    loadProducts();
+
+};
+
+
+function loadProducts() {
+
+    fetch(productApi + "/getAll")
+
+        .then(response => {
+
+            console.log("Status :", response.status);
+
+            return response.json();
+
+        })
+
+        .then(products => {
+
+            console.log("Products :", products);
+
+            allProducts = products;
+
+            displayProducts(allProducts);
+
+            loadCategoryFilter();
+
+        })
+
+        .catch(error => {
+
+            console.error("Product Error :", error);
+
+        });
+
+}
+
+
+// ================================
+// Display Products
+// ================================
+
+function displayProducts(products) {
+
+    const tbody =
+        document.getElementById("productTableBody");
+
+    tbody.innerHTML = "";
+
+
+    products.forEach(product => {
+
+        tbody.innerHTML += `
+
+            <tr>
+
+                <td>
+                    <img
+                        src="http://localhost:8080/uploads/${product.imageUrl}"
+                        class="product-image"
+                    >
+                </td>
+
+                <td>
+                    ${product.productName}
+                </td>
+
+                <td>
+                    ${product.category.categoryName}
+                </td>
+
+                <td>
+                    ₹${product.price}
+                </td>
+
+                <td>
+                    ${product.stockQuantity}
+                </td>
+
+                <td>
+                    <span class="available">
+                        ${product.status}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit-btn"
+                        onclick="editProduct(${product.productId})">
+
+                        <i class="fa-solid fa-pen"></i>
+
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteProduct(${product.productId})">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+}
+
+
 // ================================
 // Search Product
 // ================================
 
-const searchInput = document.getElementById("search");
+const searchInput =
+    document.getElementById("search");
 
-searchInput.addEventListener("keyup", function () {
 
-    const filter = searchInput.value.toLowerCase();
+searchInput.addEventListener("input", function () {
 
-    const rows = document.querySelectorAll("tbody tr");
+    const searchValue =
+        this.value.toLowerCase().trim();
 
-    rows.forEach(function (row) {
 
-        const productName = row.children[1].textContent.toLowerCase();
+    const filteredProducts =
+        allProducts.filter(product =>
 
-        if (productName.includes(filter)) {
+            product.productName
+                .toLowerCase()
+                .includes(searchValue)
 
-            row.style.display = "";
+        );
 
-        } else {
 
-            row.style.display = "none";
-
-        }
-
-    });
+    displayProducts(filteredProducts);
 
 });
 
@@ -33,106 +160,138 @@ searchInput.addEventListener("keyup", function () {
 // Category Filter
 // ================================
 
-const categoryFilter = document.getElementById("category");
+const categoryFilter =
+    document.getElementById("category");
 
-categoryFilter.addEventListener("change", function () {
 
-    const value = this.value.toLowerCase();
+function loadCategoryFilter() {
 
-    const rows = document.querySelectorAll("tbody tr");
+    const categories = [];
 
-    rows.forEach(function (row) {
 
-        const category = row.children[2].textContent.toLowerCase();
+    allProducts.forEach(product => {
 
-        if (value === "all" || category.includes(value)) {
+        const categoryName =
+            product.category.categoryName;
 
-            row.style.display = "";
 
-        } else {
+        if (!categories.includes(categoryName)) {
 
-            row.style.display = "none";
+            categories.push(categoryName);
 
         }
 
     });
 
-});
+
+    categoryFilter.innerHTML =
+        `<option value="all">All Categories</option>`;
 
 
-// ================================
-// Add Product Button
-// ================================
+    categories.forEach(category => {
 
-const addBtn = document.getElementById("add-product");
+        categoryFilter.innerHTML += `
 
-addBtn.addEventListener("click", function () {
+            <option value="${category}">
+                ${category}
+            </option>
 
-    window.location.href = "/Add-Products/add-products.html";
-
-});
-
-
-// ================================
-// Edit Product
-// ================================
-
-const editButtons = document.querySelectorAll(".edit-btn");
-
-editButtons.forEach(function (button) {
-
-    button.addEventListener("click", function () {
-
-        alert("Edit Product Page");
-
-        // Backend connect pannumbodhu
-        // window.location.href="edit-product.html?id=1";
+        `;
 
     });
 
+}
+
+
+categoryFilter.addEventListener("change", function () {
+
+    const selectedCategory =
+        this.value;
+
+
+    if (selectedCategory === "all") {
+
+        displayProducts(allProducts);
+
+        return;
+
+    }
+
+
+    const filteredProducts =
+        allProducts.filter(product =>
+
+            product.category.categoryName === selectedCategory
+
+        );
+
+
+    displayProducts(filteredProducts);
+
 });
+
+
 
 
 // ================================
 // Delete Product
 // ================================
 
-const deleteButtons = document.querySelectorAll(".delete-btn");
+function deleteProduct(productId) {
 
-deleteButtons.forEach(function (button) {
+    const confirmDelete = confirm("Are you sure you want to delete this product?");
 
-    button.addEventListener("click", function () {
+    if (!confirmDelete) {
+        return;
+    }
 
-        const confirmDelete = confirm("Are you sure you want to delete this product?");
+    fetch(productApi + "/delete/" + productId, {
 
-        if (confirmDelete) {
+        method: "DELETE"
 
-            button.closest("tr").remove();
+    })
 
-            alert("Product Deleted Successfully");
+        .then(response => {
 
-        }
+            console.log("Delete Status :", response.status);
 
-    });
+            return response.text();
 
+        })
+
+        .then(message => {
+
+            alert(message);
+
+            loadProducts();
+
+        })
+
+        .catch(error => {
+
+            console.error("Delete Error :", error);
+
+        });
+
+}
+
+
+
+// ================================
+// Edit Product
+// ================================
+
+function editProduct(productId) {
+
+    console.log("Edit Product ID :", productId);
+
+    window.location.href =
+        "../Edit-Products/edit-product.html?id=" + productId;
+
+}
+
+const addProductBtn = document.getElementById("add-product");
+
+addProductBtn.addEventListener("click", function () {
+    window.location.href = "../Add-Products/add-products.html";
 });
-
-
-// ================================
-// Card Animation
-// ================================
-
-const table = document.querySelector(".table-wrapper");
-
-table.style.opacity = "0";
-table.style.transform = "translateY(30px)";
-
-setTimeout(function () {
-
-    table.style.transition = ".5s";
-
-    table.style.opacity = "1";
-
-    table.style.transform = "translateY(0)";
-
-}, 200);

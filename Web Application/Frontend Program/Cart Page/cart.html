@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart Page</title>
-    <link rel="stylesheet" href="/Cart Page/cart.css">
+    <link rel="stylesheet" href="/Frontend Program/Cart Page/cart.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
@@ -66,83 +66,9 @@
 
     <section class="cart-container">
 
-        <div class="cart-items">
+        <div class="cart-items" id="cartItems">
 
-            <div class="cart-item">
-
-                <img src="images/sofa1.jpg" alt="Sofa">
-
-                <div class="item-details">
-
-                    <h3>Modern Luxury Sofa</h3>
-
-                    <p>Premium Velvet | Brown | 3 Seater</p>
-
-                    <span class="price">$899</span>
-
-                </div>
-
-                <div class="quantity">
-
-                    <button>-</button>
-
-                    <span>1</span>
-
-                    <button>+</button>
-
-                </div>
-
-                <div class="total-price">
-
-                    $899
-
-                </div>
-
-                <button class="remove-btn">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </div>
-
-            <div class="cart-item">
-
-                <img src="images/sofa1.jpg" alt="Sofa">
-
-                <div class="item-details">
-
-                    <h3>Modern Luxury Sofa</h3>
-
-                    <p>Premium Velvet | Brown | 3 Seater</p>
-
-                    <span class="price">$899</span>
-
-                </div>
-
-                <div class="quantity">
-
-                    <button>-</button>
-
-                    <span>1</span>
-
-                    <button>+</button>
-
-                </div>
-
-                <div class="total-price">
-
-                    $899
-
-                </div>
-
-                <button class="remove-btn">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </div>
+            <!-- Cart products will load here -->
 
         </div>
 
@@ -172,31 +98,29 @@
 
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span>$1798</span>
+                <span id="subtotal">₹0</span>
             </div>
 
             <div class="summary-row">
                 <span>Shipping</span>
-                <span>Free</span>
+                <span id="shipping">Free</span>
             </div>
 
             <div class="summary-row">
                 <span>Tax</span>
-                <span>$50</span>
+                <span id="tax">₹0</span>
             </div>
 
             <hr>
 
             <div class="summary-row total">
-
                 <span>Total</span>
-
-                <span>$1848</span>
-
+                <span id="total">₹0</span>
             </div>
 
-            <button class="checkout-btn">Proceed To Checkout</button>
-
+            <button class="checkout-btn" id="checkoutBtn">
+                Proceed To Checkout
+            </button>
         </div>
 
     </section>
@@ -250,11 +174,11 @@
 
                 <h3>Follow Us</h3>
 
-                <a href="#"><i class="fa-brands fa-facebook"></i>  Facebook</a>
+                <a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a>
 
-                <a href="#"><i class="fa-brands fa-instagram"></i>  Instagram</a>
+                <a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a>
 
-                <a href="#"><i class="fa-brands fa-twitter"></i>  Twitter</a>
+                <a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a>
 
             </div>
 
@@ -267,6 +191,8 @@
         </p>
 
     </footer>
+
+    <script src="/Frontend Program/Cart Page/cart.js"></script>
 </body>
 
 </html>

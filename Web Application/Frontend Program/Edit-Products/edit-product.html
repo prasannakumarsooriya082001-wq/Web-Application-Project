@@ -8,7 +8,7 @@
 
     <title>Edit Product | LuxeCraft Admin</title>
 
-    <link rel="stylesheet" href="/Edit-Products/edit-product.css">
+    <link rel="stylesheet" href="/Frontend Program/Edit-Products/edit-product.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -104,7 +104,7 @@
 
                 </div>
 
-                <a href="/Admin-Products/admin-products.html" class="back-btn">
+                <a href="/Frontend Program/Admin-Products/admin-products.html" class="back-btn">
 
                     <i class="fa-solid fa-arrow-left"></i>Back to Products
 
@@ -133,23 +133,16 @@
 
                     <label>Product Name</label>
 
-                    <input type="text" id="productName" placeholder="Enter Product Name">
-
+                    <input type="text" id="productName" placeholder="Enter Product Name" required>
                 </div>
 
                 <div class="form-group">
 
                     <label>Category</label>
 
-                    <select id="category">
+                    <select id="category" required>
 
-                        <option>Luxury Sofa</option>
-
-                        <option>Wooden Sofa</option>
-
-                        <option>Recliner Sofa</option>
-
-                        <option>Fabric Sofa</option>
+                        <option value="">Select Category</option>
 
                     </select>
 
@@ -159,19 +152,17 @@
 
                     <label>Price (₹)</label>
 
-                    <input type="number" id="price" placeholder="Enter Price">
-
+                    <input type="number" id="price" placeholder="Enter Price" required>
                 </div>
 
                 <div class="form-group">
 
                     <label>Stock</label>
 
-                    <input type="number" id="stock" placeholder="Available Quantity">
-
+                    <input type="number" id="stockQuantity" placeholder="Available Quantity" required>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
 
                     <label>Brand</label>
 
@@ -193,17 +184,17 @@
 
                     <input type="text" id="color" placeholder="Brown">
 
-                </div>
+                </div> -->
 
                 <div class="form-group">
 
                     <label>Status</label>
 
-                    <select id="status">
+                    <select id="status" required>
 
-                        <option>Available</option>
+                        <option value="Active">Active</option>
 
-                        <option>Out of Stock</option>
+                        <option value="Inactive">Inactive</option>
 
                     </select>
 
@@ -213,18 +204,16 @@
 
                     <label>Description</label>
 
-                    <textarea id="description" rows="5" placeholder="Enter Product Description"></textarea>
-
+                    <textarea id="description" rows="5" placeholder="Enter Product Description" required></textarea>
                 </div>
 
                 <div class="button-group full-width">
 
                     <button type="reset" class="cancel-btn">Cancel</button>
 
-                    <button type="submit" class="save-btn">
-
-                        <i class="fa-solid fa-pen-to-square"></i>Update Product
-
+                    <button type="button" class="save-btn" id="updateBtn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Update Product
                     </button>
 
                 </div>
@@ -235,7 +224,7 @@
 
     </div>
 
-    <script src="/Edit-Products/edit-product.js"></script>
+    <script src="/Frontend Program/Edit-Products/edit-product.js"></script>
 
 </body>
 

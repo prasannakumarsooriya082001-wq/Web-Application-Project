@@ -8,7 +8,7 @@
 
     <title>Add Product | LuxeCraft Admin</title>
 
-    <link rel="stylesheet" href="/Add-Products/add-products.css">
+    <link rel="stylesheet" href="/Frontend Program/Add-Products/add-products.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -104,7 +104,7 @@
 
                 </div>
 
-                <a href="/Admin-Products/admin-products.html" class="back-btn">
+                <a href="/Frontend Program/Admin-Products/admin-products.html" class="back-btn">
 
                     <i class="fa-solid fa-arrow-left"></i>Back to Products
 
@@ -120,9 +120,9 @@
 
                     <div class="image-upload">
 
-                        <img src="/images/upload-placeholder.png" id="previewImage" alt="Preview">
+                        <img src="/images/sofa1.jpg" id="previewImage" alt="Preview">
 
-                        <input type="file" id="productImage" accept="image/*">
+                        <input type="file" id="productImage" name="image" accept="image/*" required>
 
                     </div>
 
@@ -133,7 +133,7 @@
 
                     <label>Product Name</label>
 
-                    <input type="text" id="productName" placeholder="Enter Product Name">
+                    <input type="text" id="productName" placeholder="Enter Product Name" required>
 
                 </div>
 
@@ -141,15 +141,9 @@
 
                     <label>Category</label>
 
-                    <select id="category">
+                    <select id="category" required>
 
-                        <option>Luxury Sofa</option>
-
-                        <option>Wooden Sofa</option>
-
-                        <option>Recliner Sofa</option>
-
-                        <option>Fabric Sofa</option>
+                        <option value="">Select Category</option>
 
                     </select>
 
@@ -159,7 +153,7 @@
 
                     <label>Price (₹)</label>
 
-                    <input type="number" id="price" placeholder="Enter Price">
+                    <input type="number" id="price" placeholder="Enter Price" required>
 
                 </div>
 
@@ -167,43 +161,43 @@
 
                     <label>Stock</label>
 
-                    <input type="number" id="stock" placeholder="Available Quantity">
+                    <input type="number" id="stockQuantity" placeholder="Available Quantity" required>
 
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
 
                     <label>Brand</label>
 
                     <input type="text" id="brand" placeholder="Brand Name">
 
-                </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
 
                     <label>Material</label>
 
                     <input type="text" id="material" placeholder="Leather / Wood / Fabric">
 
-                </div>
+                </div> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
 
                     <label>Color</label>
 
                     <input type="text" id="color" placeholder="Brown">
 
-                </div>
+                </div> -->
 
                 <div class="form-group">
 
                     <label>Status</label>
 
-                    <select id="status">
+                    <select id="status" required>
 
-                        <option>Available</option>
+                        <option value="Active">Active</option>
 
-                        <option>Out of Stock</option>
+                        <option value="Inactive">Inactive</option>
 
                     </select>
 
@@ -213,7 +207,7 @@
 
                     <label>Description</label>
 
-                    <textarea id="description" rows="5" placeholder="Enter Product Description"></textarea>
+                    <textarea id="description" rows="5" placeholder="Enter Product Description" required></textarea>
 
                 </div>
 
@@ -221,10 +215,9 @@
 
                     <button type="reset" class="cancel-btn">Cancel</button>
 
-                    <button type="submit" class="save-btn">
-
-                        <i class="fa-solid fa-floppy-disk"></i>Save Product
-
+                    <button type="button" class="save-btn" id="saveBtn">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save Product
                     </button>
 
                 </div>
@@ -235,7 +228,7 @@
 
     </div>
 
-    <script src="/Add-Products/add-products.js"></script>
+    <script src="/Frontend Program/Add-Products/add-products.js"></script>
 
 </body>
 

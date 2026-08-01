@@ -1,55 +1,103 @@
-const checkoutForm = document.getElementById("checkoutForm");
-const placeOrder = document.querySelector(".place-order");
+console.log("Checkout JS Loaded");
 
-placeOrder.addEventListener("click", function (e) {
+window.onload = function () {
 
-    e.preventDefault();
+    console.log("Checkout Page Loaded");
 
-    // Get all required fields
-    const inputs = checkoutForm.querySelectorAll("input[required]");
+    loadCheckoutItems();
 
-    let isValid = true;
+};
 
-    inputs.forEach(input => {
 
-        if (input.value.trim() === "") {
+function loadCheckoutItems() {
 
-            input.style.borderColor = "red";
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
 
-            isValid = false;
+    const checkoutItems =
+        document.getElementById("checkoutItems");
 
-        } else {
+    checkoutItems.innerHTML = "";
 
-            input.style.borderColor = "#ddd";
+    if (cart.length === 0) {
 
-        }
+        checkoutItems.innerHTML =
+            "<p>Your cart is empty.</p>";
+
+        return;
+    }
+
+
+    let subtotal = 0;
+
+
+    cart.forEach(item => {
+
+        const itemTotal =
+            item.price * item.quantity;
+
+        subtotal += itemTotal;
+
+
+        const div =
+            document.createElement("div");
+
+        div.classList.add("summary-item");
+
+
+        div.innerHTML = `
+
+            <img src="${item.image}" alt="${item.productName}">
+
+            <div>
+
+                <h4>${item.productName}</h4>
+
+                <p>Qty : ${item.quantity}</p>
+
+            </div>
+
+            <span>₹${itemTotal.toFixed(2)}</span>
+
+        `;
+
+
+        checkoutItems.appendChild(div);
 
     });
 
-    if (!isValid) {
 
-        alert("Please fill all required fields.");
+    const shipping = 0;
 
-        return;
+    const discount = 0;
 
-    }
+    const tax = subtotal * 0.05;
 
-    // Payment Selected
+    const total =
+        subtotal + shipping + tax - discount;
 
-    const payment = document.querySelector("input[name='payment']:checked");
 
-    if (!payment) {
+    document.getElementById("checkoutSubtotal")
+        .textContent =
+        "₹" + subtotal.toFixed(2);
 
-        alert("Please select a payment method.");
 
-        return;
+    document.getElementById("checkoutShipping")
+        .textContent =
+        shipping === 0 ? "Free" : "₹" + shipping;
 
-    }
 
-    alert("Order Placed Successfully!");
+    document.getElementById("checkoutDiscount")
+        .textContent =
+        "₹" + discount.toFixed(2);
 
-    // Temporary Redirect
 
-    window.location.href = "/Order-Success/Order-Success.html";
+    document.getElementById("checkoutTotal")
+        .textContent =
+        "₹" + total.toFixed(2);
 
-});
+    document.getElementById("checkoutTax")
+        .textContent =
+        "₹" + tax.toFixed(2);
+
+}

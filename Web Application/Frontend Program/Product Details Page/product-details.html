@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products Details</title>
-    <link rel="stylesheet" href="/Product Details Page/product-details.css">
-    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="/Frontend Program/Product Details Page/product-details.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
@@ -59,7 +59,7 @@
 
             <div class="product-gallery">
 
-                <img src="/images/sofa1.jpg" class="main-image">
+                <img id="mainImage" class="main-image" src="" alt="Product">
 
                 <div class="thumbnail-gallery">
 
@@ -77,23 +77,27 @@
 
             <div class="product-info">
 
-                <h1>Modern Luxury Sofa</h1>
+                <h1 id="productName">Product Name</h1>
+
+                <!-- <div class="rating">
+                    ⭐⭐⭐⭐⭐ (120 Reviews)
+                </div> -->
 
                 <div class="rating">
-                    ⭐⭐⭐⭐⭐ (120 Reviews)
+                    <span class="stars">⭐⭐⭐⭐⭐ </span>
+                    <span class="review-count">(120 Reviews)</span>
                 </div>
 
                 <div class="price">
 
-                    <span class="new-price">$899</span>
+                    <!-- <span class="new-price">$899</span> -->
 
-                    <span class="old-price">$1099</span>
+                    <span class="new-price" id="productPrice">₹0</span>
 
                 </div>
 
-                <p class="description">
-                    Crafted with premium wood and soft cushions
-                    for luxurious comfort.
+                <p class="description" id="productDescription">
+                    Product description
                 </p>
 
                 <div class="product-option">
@@ -118,11 +122,11 @@
 
                     <div class="quantity-box">
 
-                        <button>-</button>
+                        <button id="decreaseBtn">-</button>
 
-                        <span>1</span>
+                        <span id="quantity">1</span>
 
-                        <button>+</button>
+                        <button id="increaseBtn">+</button>
 
                     </div>
 
@@ -130,7 +134,7 @@
 
                 <div class="product-buttons">
 
-                    <button class="add-cart">
+                    <button class="add-cart" id="addToCartBtn">
                         Add To Cart
                     </button>
 
@@ -449,11 +453,11 @@
 
                 <h3>Follow Us</h3>
 
-                <a href="#"><i class="fa-brands fa-facebook"></i>  Facebook</a>
+                <a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a>
 
-                <a href="#"><i class="fa-brands fa-instagram"></i>  Instagram</a>
+                <a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a>
 
-                <a href="#"><i class="fa-brands fa-twitter"></i>  Twitter</a>
+                <a href="#"><i class="fa-brands fa-twitter"></i> Twitter</a>
 
             </div>
 
@@ -466,6 +470,8 @@
         </p>
 
     </footer>
+
+    <script src="/Frontend Program/Product Details Page/product-details.js"></script>
 </body>
 
 </html>
