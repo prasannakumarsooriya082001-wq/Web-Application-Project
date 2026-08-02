@@ -38,33 +38,94 @@ toggleConfirm.addEventListener("click", () => {
 
 });
 
-const form = document.getElementById("registerForm");
+const registerForm = document.getElementById("registerForm");
 
-form.addEventListener("submit",function(e){
+registerForm.addEventListener("submit", function (event) {
 
-    e.preventDefault();
+    event.preventDefault();
 
-    const firstName=document.getElementById("firstName").value.trim();
-    const lastName=document.getElementById("lastName").value.trim();
-    const email=document.getElementById("email").value.trim();
-    const phone=document.getElementById("phone").value.trim();
-    const password=document.getElementById("password").value;
-    const confirmPassword=document.getElementById("confirmPassword").value;
+    const firstName =
+        document.getElementById("firstName").value;
 
-    if(firstName==="" || lastName==="" || email==="" || phone==="" || password==="" || confirmPassword===""){
+    const lastName =
+        document.getElementById("lastName").value;
 
-        alert("Please fill all fields.");
+    const email =
+        document.getElementById("email").value;
+
+    const phone =
+        document.getElementById("phone").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+
+    if (password !== confirmPassword) {
+
+        alert("Passwords do not match!");
+
         return;
-
     }
 
-    if(password !== confirmPassword){
 
-        alert("Passwords do not match.");
-        return;
+    const customer = {
 
-    }
+        firstName: firstName,
 
-    alert("Registration Successful!");
+        lastName: lastName,
+
+        email: email,
+
+        phone: phone,
+
+        password: password
+
+    };
+
+
+    fetch("http://localhost:8080/customer/register", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(customer)
+
+    })
+
+    .then(response => {
+
+        if (!response.ok) {
+
+            throw new Error("Registration failed");
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        console.log("Registered Customer:", data);
+
+        alert("Registration Successful!");
+
+        window.location.href ="/Frontend Program/Login Page/login.html";
+
+    })
+
+    .catch(error => {
+
+        console.error("Registration Error:", error);
+
+        alert("Registration failed!");
+
+    });
 
 });

@@ -75,28 +75,74 @@ adminTab.addEventListener("click", () => {
 });
 
 
-// ================= LOGIN FORM =================
+console.log("Login JS Loaded");
 
 const loginForm = document.getElementById("loginForm");
 
-loginForm.addEventListener("submit", (e) => {
+loginForm.addEventListener("submit", function (event) {
 
-    e.preventDefault();
+    event.preventDefault();
 
-    if (userTab.classList.contains("active")) {
+    const email = document.getElementById("email").value;
 
-        alert("User Login");
+    const password = document.getElementById("password").value;
 
-        // Later:
-        // window.location.href = "/Home/home.html";
 
-    } else {
+    const loginData = {
 
-        alert("Admin Login");
+        email: email,
 
-        // Later:
-        // window.location.href = "/Admin/dashboard.html";
+        password: password
 
-    }
+    };
+
+
+    fetch("http://localhost:8080/customer/login", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify(loginData)
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error("Invalid email or password");
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(customer => {
+
+            console.log("Login Success :", customer);
+
+            localStorage.setItem("loggedInCustomer",JSON.stringify(customer));
+
+            console.log("Saved Customer:",localStorage.getItem("loggedInCustomer"));
+
+            console.log("Redirecting to Main Page...");
+
+            window.location.replace("../Main Page/index.html");
+
+        })
+
+        .catch(error => {
+
+            console.error("Login Error :", error);
+
+            alert("Invalid email or password");
+
+        });
 
 });
