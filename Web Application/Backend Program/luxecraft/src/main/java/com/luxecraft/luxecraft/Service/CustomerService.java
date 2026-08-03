@@ -45,7 +45,7 @@ public class CustomerService
 
         String token = jwtService.generateToken(customer.getEmail(),customer.getRole());
 
-        return new LoginResponse(token,customer.getFirstName(),customer.getLastName(),customer.getEmail(),customer.getRole());
+        return new LoginResponse(token,customer.getFirstName(),customer.getLastName(),customer.getPhone(),customer.getEmail(),customer.getRole());
     }
 
 }
