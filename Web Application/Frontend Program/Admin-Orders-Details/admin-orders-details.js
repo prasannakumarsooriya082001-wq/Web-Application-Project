@@ -1,149 +1,548 @@
+console.log("Admin Order Details JS Loaded");
 
-// ==========================
-// Status Update
-// ==========================
+// =====================================================
+// ADMIN LOGIN CHECK
+// =====================================================
 
-const updateBtn = document.getElementById("updateBtn");
+const loggedInAdmin =
+    JSON.parse(localStorage.getItem("loggedInAdmin"));
 
-const statusSelect = document.getElementById("orderStatus");
+if (
+    !loggedInAdmin ||
+    loggedInAdmin.role !== "ADMIN" ||
+    !loggedInAdmin.token
+) {
+    localStorage.removeItem("loggedInAdmin");
 
-const badge = document.querySelector(".status-badge");
+    window.location.replace(
+        "../Login Page/login.html"
+    );
+}
 
-if (updateBtn && statusSelect && badge) {
 
-    updateBtn.addEventListener("click", function (e) {
+// =====================================================
+// GET ORDER ID FROM URL
+// =====================================================
 
-        e.preventDefault();
+const urlParams =
+    new URLSearchParams(window.location.search);
 
-        const status = statusSelect.value;
+const orderId =
+    urlParams.get("id");
 
-        if (confirm("Are you sure you want to update the order status?")) {
+console.log("Order ID:", orderId);
 
-            badge.innerText = status;
 
-            badge.className = "status-badge";
+if (!orderId) {
 
-            if (status === "Pending") {
+    alert("Order ID not found");
 
-                badge.classList.add("pending");
-
-            }
-
-            else if (status === "Processing") {
-
-                badge.classList.add("processing");
-
-            }
-
-            else if (status === "Delivered") {
-
-                badge.classList.add("delivered");
-
-            }
-
-            else {
-
-                badge.classList.add("cancelled");
-
-            }
-
-            alert("✅ Order Status Updated Successfully!");
-
-        }
-
-    });
+    window.location.href =
+        "../Admin-Orders/admin-orders.html";
 
 }
 
 
-// ==========================
-// Live Badge Color Change
-// ==========================
+// =====================================================
+// HTML ELEMENTS
+// =====================================================
 
-if (statusSelect && badge) {
+const orderIdElement =
+    document.getElementById("orderId");
 
-    statusSelect.addEventListener("change", function () {
+const orderDateElement =
+    document.getElementById("orderDate");
 
-        const status = this.value;
+const deliveryDateElement =
+    document.getElementById("deliveryDate");
 
-        badge.innerText = status;
+const statusBadge =
+    document.getElementById("statusBadge");
 
-        badge.className = "status-badge";
+const customerName =
+    document.getElementById("customerName");
 
-        if (status === "Pending") {
+const customerEmail =
+    document.getElementById("customerEmail");
 
-            badge.classList.add("pending");
+const customerPhone =
+    document.getElementById("customerPhone");
 
+const customerAddress =
+    document.getElementById("customerAddress");
+
+const paymentMethod =
+    document.getElementById("paymentMethod");
+
+const totalAmount =
+    document.getElementById("totalAmount");
+
+const productName =
+    document.getElementById("productName");
+
+const productQuantity =
+    document.getElementById("productQuantity");
+
+const productPrice =
+    document.getElementById("productPrice");
+
+const productImage =
+    document.getElementById("productImage");
+
+const orderStatus =
+    document.getElementById("orderStatus");
+
+const updateBtn =
+    document.getElementById("updateBtn");
+
+
+// =====================================================
+// LOAD ORDER DETAILS
+// =====================================================
+
+function loadOrderDetails() {
+
+    fetch(
+        `http://localhost:8080/order/admin/${orderId}`,
+        {
+            method: "GET",
+
+            headers: {
+                "Authorization":
+                    "Bearer " +
+                    loggedInAdmin.token
+            }
         }
+    )
 
-        else if (status === "Processing") {
+        .then(response => {
 
-            badge.classList.add("processing");
+            console.log(
+                "Order Details API Status:",
+                response.status
+            );
 
-        }
+            if (!response.ok) {
 
-        else if (status === "Delivered") {
+                throw new Error(
+                    "Failed to load order details"
+                );
 
-            badge.classList.add("delivered");
+            }
 
-        }
+            return response.json();
 
-        else {
+        })
 
-            badge.classList.add("cancelled");
+        .then(order => {
 
-        }
+            console.log(
+                "Order Details:",
+                order
+            );
 
-    });
+            displayOrder(order);
+
+            loadOrderItem();
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Order Details Error:",
+                error
+            );
+
+            alert(
+                "Failed to load order details"
+            );
+
+        });
 
 }
 
-// ==========================
-// Cards Animation
-// ==========================
 
-const cards = document.querySelectorAll(".card");
+// =====================================================
+// DISPLAY ORDER
+// =====================================================
 
-cards.forEach((card, index) => {
+function displayOrder(order) {
 
-    card.style.opacity = "0";
+    // Order ID
 
-    card.style.transform = "translateY(25px)";
-
-    setTimeout(() => {
-
-        card.style.transition = ".5s";
-
-        card.style.opacity = "1";
-
-        card.style.transform = "translateY(0)";
-
-    }, index * 150);
-
-});
+    orderIdElement.innerText =
+        "ORD" +
+        String(order.orderId)
+            .padStart(3, "0");
 
 
-// ==========================
-// Product Image Hover
-// ==========================
+    // Order Date
 
-const productImage = document.querySelector(".product-image");
+    orderDateElement.innerText =
+        formatDate(order.orderDate);
 
-if (productImage) {
 
-    productImage.addEventListener("mouseover", function () {
+    // Delivery Date
 
-        productImage.style.transform = "scale(1.08)";
+    deliveryDateElement.innerText =
+        formatDate(order.deliveryDate);
 
-        productImage.style.transition = ".3s";
 
-    });
+    // Customer
 
-    productImage.addEventListener("mouseout", function () {
+    customerName.innerText =
+        `${order.firstName} ${order.lastName}`;
 
-        productImage.style.transform = "scale(1)";
 
-    });
+    customerEmail.innerText =
+        order.email;
+
+
+    customerPhone.innerText =
+        order.phone;
+
+
+    // Address
+
+    customerAddress.innerHTML = `
+
+        ${order.streetAddress}<br>
+        ${order.city}<br>
+        ${order.state} - ${order.zipCode}<br>
+        ${order.country}
+
+    `;
+
+
+    // Payment
+
+    paymentMethod.innerText =
+        order.paymentMethod;
+
+
+    // Amount
+
+    totalAmount.innerText =
+        Number(
+            order.totalAmount || 0
+        ).toLocaleString("en-IN");
+
+
+    // Status
+
+    updateStatusUI(
+        order.status
+    );
+
+
+    // Select current status
+
+    orderStatus.value =
+        order.status;
 
 }
 
+
+// =====================================================
+// LOAD ORDER ITEM
+// =====================================================
+
+function loadOrderItem() {
+
+    fetch(
+        `http://localhost:8080/order/admin/${orderId}/items`,
+        {
+            method: "GET",
+
+            headers: {
+                "Authorization":
+                    "Bearer " +
+                    loggedInAdmin.token
+            }
+        }
+    )
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load order item"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(items => {
+
+            console.log(
+                "Order Items:",
+                items
+            );
+
+
+            if (
+                !items ||
+                items.length === 0
+            ) {
+
+                productName.innerText =
+                    "No Product";
+
+                return;
+
+            }
+
+
+            // First product
+
+            const item =
+                items[0];
+
+
+            productName.innerText =
+                item.productName ||
+                "Unknown Product";
+
+
+            productQuantity.innerText =
+                item.quantity;
+
+
+            productPrice.innerText =
+                Number(
+                    item.price || 0
+                ).toLocaleString("en-IN");
+
+
+            if (item.imageUrl) {
+
+                productImage.src =
+                    item.imageUrl;
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Order Item Error:",
+                error
+            );
+
+            productName.innerText =
+                "Failed to load product";
+
+        });
+
+}
+
+
+// =====================================================
+// FORMAT DATE
+// =====================================================
+
+function formatDate(dateValue) {
+
+    if (!dateValue) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(dateValue);
+
+
+    if (isNaN(date.getTime())) {
+
+        return "-";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+// =====================================================
+// STATUS UI
+// =====================================================
+
+function updateStatusUI(status) {
+
+    const value =
+        (status || "")
+            .toUpperCase();
+
+
+    statusBadge.innerText =
+        value;
+
+
+    statusBadge.className =
+        "status status-badge";
+
+
+    if (value === "PENDING") {
+
+        statusBadge.classList.add(
+            "pending"
+        );
+
+    }
+
+    else if (
+        value === "IN PROGRESS" ||
+        value === "PROCESSING"
+    ) {
+
+        statusBadge.classList.add(
+            "processing"
+        );
+
+    }
+
+    else if (value === "DELIVERED") {
+
+        statusBadge.classList.add(
+            "delivered"
+        );
+
+    }
+
+    else if (value === "CANCELLED") {
+
+        statusBadge.classList.add(
+            "cancelled"
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// UPDATE ORDER STATUS
+// =====================================================
+
+updateBtn.addEventListener(
+    "click",
+    function () {
+
+        const newStatus =
+            orderStatus.value;
+
+
+        if (
+            !confirm(
+                `Change order status to ${newStatus}?`
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        fetch(
+            `http://localhost:8080/order/admin/${orderId}/status`,
+            {
+
+                method: "PUT",
+
+                headers: {
+
+                    "Authorization":
+                        "Bearer " +
+                        loggedInAdmin.token,
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body:
+                    JSON.stringify(
+                        newStatus
+                    )
+
+            }
+        )
+
+            .then(response => {
+
+                console.log(
+                    "Status Update API:",
+                    response.status
+                );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to update status"
+                    );
+
+                }
+
+
+                return response.json();
+
+            })
+
+            .then(updatedOrder => {
+
+                console.log(
+                    "Updated Order:",
+                    updatedOrder
+                );
+
+
+                updateStatusUI(
+                    updatedOrder.status
+                );
+
+
+                alert(
+                    "✅ Order Status Updated Successfully!"
+                );
+
+            })
+
+            .catch(error => {
+
+                console.error(
+                    "Status Update Error:",
+                    error
+                );
+
+                alert(
+                    "❌ Failed to update order status"
+                );
+
+            });
+
+    }
+);
+
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
+
+loadOrderDetails();

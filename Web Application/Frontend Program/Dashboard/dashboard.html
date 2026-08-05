@@ -95,25 +95,28 @@
 
                 <div>
                     <h1>Dashboard</h1>
-                    <p>Welcome back, Admin 👋</p>
+                    <p>Welcome back, <span id="adminName">Admin</span> 👋</p>
                 </div>
 
                 <div class="header-right">
 
                     <span>27 July 2026</span>
 
-                    <i class="fa-solid fa-bell"></i>
+                    <!-- <i class="fa-solid fa-bell"></i> -->
 
                     <div class="admin-profile">
+                        <a href="/Frontend Program/Admin-Settings/admin-setting.html">
+                                
                         <i class="fa-solid fa-user"></i>
-                        Admin
+                        <span id="adminProfileName">Admin</span>
+                        </a>
                     </div>
 
                 </div>
 
             </header>
 
-<!-- *************************************************************************************************** -->
+            <!-- *************************************************************************************************** -->
 
             <section class="dashboard-cards">
 
@@ -123,7 +126,7 @@
                     </div>
                     <div class="card-info">
                         <h3>Products</h3>
-                        <p>125</p>
+                        <p id="productCount">0</p>
                     </div>
                 </div>
 
@@ -133,7 +136,7 @@
                     </div>
                     <div class="card-info">
                         <h3>Orders</h3>
-                        <p>58</p>
+                        <p id="orderCount">0</p>
                     </div>
                 </div>
 
@@ -143,7 +146,7 @@
                     </div>
                     <div class="card-info">
                         <h3>Customers</h3>
-                        <p>430</p>
+                        <p id="customerCount">0</p>
                     </div>
                 </div>
 
@@ -153,7 +156,7 @@
                     </div>
                     <div class="card-info">
                         <h3>Revenue</h3>
-                        <p>₹2,45,000</p>
+                        <p id="revenueAmount">₹0</p>
                     </div>
                 </div>
 
@@ -167,7 +170,7 @@
 
                     <h2>Recent Orders</h2>
 
-                    <a href="orders.html">View All</a>
+                    <a href="/Frontend Program/Admin-Orders/admin-orders.html">View All</a>
 
                 </div>
 
@@ -187,32 +190,7 @@
 
                         </thead>
 
-                        <tbody>
-
-                            <tr>
-                                <td>ORD001</td>
-                                <td>Prasanna</td>
-                                <td>Luxury Sofa</td>
-                                <td><span class="status delivered">Delivered</span></td>
-                                <td>₹89,999</td>
-                            </tr>
-
-                            <tr>
-                                <td>ORD002</td>
-                                <td>Rahul</td>
-                                <td>Recliner Sofa</td>
-                                <td><span class="status pending">Pending</span></td>
-                                <td>₹54,999</td>
-                            </tr>
-
-                            <tr>
-                                <td>ORD003</td>
-                                <td>Priya</td>
-                                <td>Wooden Sofa</td>
-                                <td><span class="status processing">Processing</span></td>
-                                <td>₹42,999</td>
-                            </tr>
-
+                        <tbody id="recentOrdersBody">
                         </tbody>
 
                     </table>
@@ -225,7 +203,7 @@
 
     </div>
 
-    <script src="/Dashboard/dashboard.js"></script>
+    <script src="/Frontend Program/Dashboard/dashboard.js"></script>
 
 </body>
 

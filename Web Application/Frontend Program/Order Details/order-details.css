@@ -1,0 +1,306 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f5f2;
+    color: #2c1f0e;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    background: #2c1f0e;
+    color: white;
+    padding: 18px 60px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: #c4965a;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logo h2 {
+    font-size: 24px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.navbar nav a:hover {
+    color: #c4965a;
+}
+
+
+/* =========================
+   PAGE TITLE
+========================= */
+
+.page-title {
+    text-align: center;
+    padding: 50px 20px 30px;
+}
+
+.page-title h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.page-title p {
+    color: #777;
+    font-size: 16px;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.order-details-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto 60px;
+}
+
+
+/* =========================
+   ORDER CARD
+========================= */
+
+.order-card {
+    background: white;
+    border-radius: 14px;
+    padding: 35px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   ORDER HEADER
+========================= */
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-header span {
+    display: block;
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.order-header h2 {
+    font-size: 24px;
+}
+
+.order-header h3 {
+    color: #c4965a;
+    font-size: 18px;
+}
+
+
+/* =========================
+   DETAILS SECTION
+========================= */
+
+.details-section {
+    padding: 25px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.details-section h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.details-section p {
+    margin-bottom: 10px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.details-section strong {
+    color: #2c1f0e;
+}
+
+
+/* =========================
+   SHIPPING ADDRESS
+========================= */
+
+#shippingAddress {
+    background: #f7f5f2;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    color: #555;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 12px 0;
+
+    font-size: 16px;
+}
+
+.summary-row.total {
+    margin-top: 8px;
+    padding-top: 18px;
+
+    border-top: 2px solid #eee;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    color: #2c1f0e;
+}
+
+#totalAmount {
+    color: #c4965a;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-btn {
+    margin-top: 30px;
+
+    padding: 13px 25px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #2c1f0e;
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #c4965a;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        padding: 15px 25px;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .page-title h1 {
+        font-size: 28px;
+    }
+
+    .order-details-container {
+        width: 94%;
+    }
+
+    .order-card {
+        padding: 22px;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .summary-row {
+        font-size: 14px;
+    }
+
+}
+
+@media (max-width: 480px) {
+
+    .page-title {
+        padding: 35px 15px 20px;
+    }
+
+    .page-title h1 {
+        font-size: 25px;
+    }
+
+    .order-card {
+        padding: 18px;
+    }
+
+    .details-section h2 {
+        font-size: 18px;
+    }
+
+}

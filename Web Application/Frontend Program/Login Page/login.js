@@ -1,23 +1,31 @@
+console.log("Login JS Loaded");
+
 
 // ================= PASSWORD TOGGLE =================
 
-const password = document.getElementById("password");
-const togglePassword = document.getElementById("togglePassword");
+const passwordInput =
+    document.getElementById("password");
+
+const togglePassword =
+    document.getElementById("togglePassword");
+
 
 togglePassword.addEventListener("click", () => {
 
-    if (password.type === "password") {
+    if (passwordInput.type === "password") {
 
-        password.type = "text";
+        passwordInput.type = "text";
 
         togglePassword.classList.remove("fa-eye");
+
         togglePassword.classList.add("fa-eye-slash");
 
     } else {
 
-        password.type = "password";
+        passwordInput.type = "password";
 
         togglePassword.classList.remove("fa-eye-slash");
+
         togglePassword.classList.add("fa-eye");
 
     }
@@ -27,66 +35,136 @@ togglePassword.addEventListener("click", () => {
 
 // ================= LOGIN TABS =================
 
-const userTab = document.getElementById("userTab");
-const adminTab = document.getElementById("adminTab");
+const userTab =
+    document.getElementById("userTab");
 
-const loginTitle = document.getElementById("loginTitle");
-const loginDescription = document.getElementById("loginDescription");
+const adminTab =
+    document.getElementById("adminTab");
 
-const registerLink = document.getElementById("registerLink");
-const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+const loginTitle =
+    document.getElementById("loginTitle");
+
+const loginDescription =
+    document.getElementById("loginDescription");
+
+const registerLink =
+    document.getElementById("registerLink");
+
+const forgotPasswordLink =
+    document.getElementById("forgotPasswordLink");
 
 
-// ---------- USER TAB ----------
+// ================= LOGIN TYPE =================
+
+// Default login type is USER
+
+let loginType = "USER";
+
+
+// ================= USER TAB =================
 
 userTab.addEventListener("click", () => {
 
+    loginType = "USER";
+
+    // Active tab
+
     userTab.classList.add("active");
+
     adminTab.classList.remove("active");
 
-    loginTitle.textContent = "Welcome Back";
+
+    // Change title
+
+    loginTitle.textContent =
+        "Welcome Back";
+
+
+    // Change description
 
     loginDescription.textContent =
         "Login to continue shopping.";
 
-    registerLink.style.display = "block";
 
-    forgotPasswordLink.style.display = "inline";
+    // Show User options
+
+    registerLink.style.display =
+        "block";
+
+    forgotPasswordLink.style.display =
+        "inline";
 
 });
 
 
-// ---------- ADMIN TAB ----------
+// ================= ADMIN TAB =================
 
 adminTab.addEventListener("click", () => {
 
+    loginType = "ADMIN";
+
+    // Active tab
+
     adminTab.classList.add("active");
+
     userTab.classList.remove("active");
 
-    loginTitle.textContent = "Administrator Login";
+
+    // Change title
+
+    loginTitle.textContent =
+        "Administrator Login";
+
+
+    // Change description
 
     loginDescription.textContent =
         "Login to manage products, orders and customers.";
 
-    registerLink.style.display = "none";
 
-    forgotPasswordLink.style.display = "none";
+    // Hide User options
+
+    registerLink.style.display =
+        "none";
+
+    forgotPasswordLink.style.display =
+        "none";
 
 });
 
 
-console.log("Login JS Loaded");
+// ================= LOGIN FORM =================
 
-const loginForm = document.getElementById("loginForm");
+const loginForm =
+    document.getElementById("loginForm");
+
 
 loginForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const email = document.getElementById("email").value;
 
-    const password = document.getElementById("password").value;
+    // ================= GET INPUT =================
 
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    // ================= VALIDATION =================
+
+    if (email === "" || password === "") {
+
+        alert("Please enter email and password.");
+
+        return;
+
+    }
+
+
+    // ================= LOGIN DATA =================
 
     const loginData = {
 
@@ -97,51 +175,175 @@ loginForm.addEventListener("submit", function (event) {
     };
 
 
-    fetch("http://localhost:8080/customer/login", {
+    // ================= SELECT API =================
+
+    let loginUrl;
+
+
+    if (loginType === "ADMIN") {
+
+        loginUrl =
+            "http://localhost:8080/admin/login";
+
+    } else {
+
+        loginUrl =
+            "http://localhost:8080/customer/login";
+
+    }
+
+
+    console.log("Login Type :", loginType);
+
+    console.log("Login URL :", loginUrl);
+
+
+    // ================= LOGIN API =================
+
+    fetch(loginUrl, {
 
         method: "POST",
 
         headers: {
 
-            "Content-Type": "application/json"
+            "Content-Type":
+                "application/json"
 
         },
 
-        body: JSON.stringify(loginData)
+        body:
+            JSON.stringify(loginData)
 
     })
 
         .then(response => {
 
+            console.log(
+                "Login Status :",
+                response.status
+            );
+
+
             if (!response.ok) {
 
-                throw new Error("Invalid email or password");
+                throw new Error(
+                    "Invalid email or password"
+                );
 
             }
+
 
             return response.json();
 
         })
 
-        .then(customer => {
+        .then(loginResponse => {
 
-            console.log("Login Success :", customer);
+            console.log(
+                "Login Success :",
+                loginResponse
+            );
 
-            localStorage.setItem("loggedInCustomer",JSON.stringify(customer));
 
-            console.log("Saved Customer:",localStorage.getItem("loggedInCustomer"));
+            // ================= ADMIN LOGIN =================
 
-            console.log("Redirecting to Main Page...");
+            if (loginType === "ADMIN") {
 
-            window.location.replace("../Main Page/index.html");
+
+
+                const adminData = {
+
+                    token: loginResponse.token,
+
+                    name:
+                        loginResponse.name ||
+                        loginResponse.firstName ,
+                        // loginResponse.email.split("@")[0],
+
+                    email:
+                        loginResponse.email,
+
+                    role:
+                        loginResponse.role
+
+                };
+
+
+                localStorage.setItem(
+                    "loggedInAdmin",
+                    JSON.stringify(adminData)
+                );
+
+
+                console.log(
+                    "Saved Admin :",
+                    localStorage.getItem(
+                        "loggedInAdmin"
+                    )
+                );
+                // localStorage.setItem(
+                //     "loggedInAdmin",
+                //     JSON.stringify(loginResponse)
+                // );
+
+
+                // console.log(
+                //     "Saved Admin :",
+                //     localStorage.getItem(
+                //         "loggedInAdmin"
+                //     )
+                // );
+
+
+                // Admin Dashboard
+
+                window.location.replace(
+                    "../Dashboard/dashboard.html"
+                );
+
+
+            }
+
+
+            // ================= USER LOGIN =================
+
+            else {
+
+                localStorage.setItem(
+                    "loggedInCustomer",
+                    JSON.stringify(loginResponse)
+                );
+
+
+                console.log(
+                    "Saved Customer :",
+                    localStorage.getItem(
+                        "loggedInCustomer"
+                    )
+                );
+
+
+                // Customer Home
+
+                window.location.replace(
+                    "../Main Page/index.html"
+                );
+
+            }
 
         })
 
         .catch(error => {
 
-            console.error("Login Error :", error);
+            console.error(
+                "Login Error :",
+                error
+            );
 
-            alert("Invalid email or password");
+
+            alert(
+                "Invalid email or password"
+            );
 
         });
 

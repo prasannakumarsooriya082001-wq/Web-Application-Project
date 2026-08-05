@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.PutMapping;
+import com.luxecraft.luxecraft.Dto.CartDTO;
 import com.luxecraft.luxecraft.Model.CartModel;
 import com.luxecraft.luxecraft.Model.CustomerModel;
 import com.luxecraft.luxecraft.Repository.CustomerRepository;
@@ -27,7 +28,6 @@ public class CartController {
     @Autowired
     private CustomerRepository customerRepository;
 
-
     // ================= ADD TO CART =================
 
     @PostMapping("/add")
@@ -38,10 +38,8 @@ public class CartController {
 
         String email = authentication.getName();
 
-        CustomerModel customer =
-                customerRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("Customer not found"));
+        CustomerModel customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         return cartService.addToCart(
                 customer.getCustomerId(),
@@ -49,24 +47,18 @@ public class CartController {
                 quantity);
     }
 
-
     // ================= GET CART =================
 
     @GetMapping
-    public List<CartModel> getCart(
-            Authentication authentication) {
+    public List<CartDTO> getCart(Authentication authentication) {
 
         String email = authentication.getName();
 
-        CustomerModel customer =
-                customerRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("Customer not found"));
+        CustomerModel customer = customerRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Customer not found"));
 
         return cartService.getCart(
                 customer.getCustomerId());
     }
-
 
     // ================= REMOVE CART ITEM =================
 
@@ -77,15 +69,32 @@ public class CartController {
 
         String email = authentication.getName();
 
-        CustomerModel customer =
-                customerRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("Customer not found"));
+        CustomerModel customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
 
         cartService.removeFromCart(
                 customer.getCustomerId(),
                 cartId);
 
         return "Cart item removed successfully";
+    }
+
+    // ================= UPDATE QUANTITY =================
+
+    @PutMapping("/update/{cartId}")
+    public CartModel updateQuantity(
+            @PathVariable Long cartId,
+            @RequestParam int quantity,
+            Authentication authentication) {
+
+        String email = authentication.getName();
+
+        CustomerModel customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        return cartService.updateQuantity(
+                customer.getCustomerId(),
+                cartId,
+                quantity);
     }
 }

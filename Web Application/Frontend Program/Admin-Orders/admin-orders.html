@@ -8,7 +8,7 @@
 
     <title>Orders Management</title>
 
-    <link rel="stylesheet" href="/Admin-Orders/admin-Orders.css">
+    <link rel="stylesheet" href="/Frontend Program/Admin-Orders/admin-Orders.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -33,56 +33,56 @@
             <ul class="sidebar-menu">
 
                 <li>
-                    <a href="/Dashboard/dashboard.html">
+                    <a href="/Frontend Program/Dashboard/dashboard.html">
                         <i class="fa-solid fa-house"></i>
                         Dashboard
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Products/admin-products.html">
+                    <a href="/Frontend Program/Admin-Products/admin-products.html">
                         <i class="fa-solid fa-box"></i>
                         Products
                     </a>
                 </li>
 
                 <li class="active">
-                    <a href="/Admin-Orders/admin-orders.html">
+                    <a href="/Frontend Program/Admin-Orders/admin-orders.html">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Orders
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Customers/admin-customers.html">
+                    <a href="/Frontend Program/Admin-Customers/admin-customers.html">
                         <i class="fa-solid fa-users"></i>
                         Customers
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Categories/admin-categories.html">
+                    <a href="/Frontend Program/Admin-Categories/admin-categories.html">
                         <i class="fa-solid fa-layer-group"></i>
                         Categories
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/Frontend Program/Admin-Reports/admin-reports.html">
                         <i class="fa-solid fa-chart-line"></i>
                         Reports
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/Frontend Program/Admin-Settings/admin-setting.html">
                         <i class="fa-solid fa-gear"></i>
                         Settings
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Login Page/login.html">
+                    <a href="/Frontend Program/Login Page/login.html">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </a>
@@ -91,7 +91,6 @@
             </ul>
 
         </aside>
-
         <!-- Main Content -->
 
         <main class="main-content">
@@ -120,19 +119,22 @@
 
                 </div>
 
-                <select id="category">
+                <div class="category-wrapper">
+                    <select class="category-filter" id="category">
 
-                    <option>All Orders</option>
+                        <option>All Orders</option>
 
-                    <option>Pending</option>
+                        <option>Pending</option>
 
-                    <option>Processing</option>
+                        <option>In Progress</option>
 
-                    <option>Delivered</option>
+                        <option>Delivered</option>
 
-                    <option>Cancelled</option>
+                        <option>Cancelled</option>
 
-                </select>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
 
             </div>
 
@@ -164,92 +166,12 @@
 
                     </thead>
 
-                    <tbody>
+                    <tbody id="orderTableBody">
 
                         <tr>
 
-                            <td>ORD001</td>
-
-                            <td>Prasanna</td>
-
-                            <td>Luxury Leather Sofa</td>
-
-                            <td>28 Jul 2026</td>
-
-                            <td>₹89,999</td>
-
-                            <td>
-                                <span class="status delivered">Delivered</span>
-                            </td>
-
-                            <td>
-
-                                <a href="/Admin-Orders-Details/admin-orders-details.html" class="view-btn">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>ORD002</td>
-
-                            <td>Rahul</td>
-
-                            <td>Recliner Sofa</td>
-
-                            <td>28 Jul 2026</td>
-
-                            <td>₹54,999</td>
-
-                            <td>
-
-                                <span class="status pending">Pending</span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="/Admin-Orders-Details/admin-orders-details.html" class="view-btn">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>ORD003</td>
-
-                            <td>Priya</td>
-
-                            <td>Wooden Sofa</td>
-
-                            <td>27 Jul 2026</td>
-
-                            <td>₹42,999</td>
-
-                            <td>
-
-                                <span class="status processing">Processing</span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="/Admin-Orders-Details/admin-orders-details.html" class="view-btn">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                </a>
-
+                            <td colspan="7" style="text-align:center;">
+                                Loading orders...
                             </td>
 
                         </tr>
@@ -264,7 +186,7 @@
 
     </div>
 
-    <script src="/Admin-Orders/admin-Orders.js"></script>
+    <script src="../Admin-Orders/admin-Orders.js"></script>
 
 </body>
 

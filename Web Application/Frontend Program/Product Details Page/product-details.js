@@ -132,66 +132,72 @@ const addToCartBtn = document.getElementById("addToCartBtn");
 
 addToCartBtn.addEventListener("click", function () {
 
-    const params = new URLSearchParams(window.location.search);
+    const loggedInCustomer =
+        JSON.parse(localStorage.getItem("loggedInCustomer"));
 
-    const productId = params.get("id");
+    // Login check
+    if (!loggedInCustomer) {
 
-    const productName =
-        document.getElementById("productName").textContent;
+        window.location.href =
+            "../Login Page/login.html";
 
-    const productPrice =
-        parseFloat(
-            document.getElementById("productPrice")
-                .textContent
-                .replace("₹", "")
-        );
-
-    const productImage =
-        document.getElementById("mainImage").src;
-
-
-    const cartItem = {
-
-        productId: productId,
-
-        productName: productName,
-
-        price: productPrice,
-
-        quantity: quantity,
-
-        image: productImage
-
-    };
-
-
-    let cart =
-        JSON.parse(localStorage.getItem("cart")) || [];
-
-
-    const existingProduct =
-        cart.find(item =>
-            item.productId == productId
-        );
-
-
-    if (existingProduct) {
-
-        existingProduct.quantity += quantity;
-
-    } else {
-
-        cart.push(cartItem);
-
+        return;
     }
 
+    const params =
+        new URLSearchParams(window.location.search);
 
-    localStorage.setItem(
-        "cart",
-        JSON.stringify(cart)
-    );
+    const productId =
+        params.get("id");
 
+    // ================= ADD TO CART API =================
 
-    alert("Product added to cart successfully!");
+    fetch("http://localhost:8080/cart/add?productId="
+        + productId
+        + "&quantity="
+        + quantity, {
+
+        method: "POST",
+
+        headers: {
+
+            "Authorization": "Bearer " + loggedInCustomer.token
+
+        }
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error("Failed to add product to cart");
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(cartItem => {
+
+            console.log("Cart Item:", cartItem);
+
+            alert("Product added to cart successfully!");
+
+            // window.location.href =
+            //     "../Cart Page/cart.html";
+
+        })
+
+        .catch(error => {
+
+            console.error("Cart Error:", error);
+
+            alert("Unable to add product to cart");
+
+        });
 
 });
+
+

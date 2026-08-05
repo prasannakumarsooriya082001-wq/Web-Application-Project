@@ -8,7 +8,7 @@
 
     <title>Order Details</title>
 
-    <link rel="stylesheet" href="/Admin-Orders-Details/admin-orders-details.css">
+    <link rel="stylesheet" href="../Admin-Orders-Details/admin-orders-details.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -42,23 +42,25 @@
 
                 <div>
                     <strong>Order ID</strong>
-                    <p class="order-id">ORD001</p>
+                    <p class="order-id" id="orderId">-</p>
                 </div>
 
                 <div>
                     <strong>Order Date</strong>
-                    <p>28 Jul 2026</p>
+                    <p id="orderDate">-</p>
                 </div>
 
                 <div>
                     <strong>Delivery Date</strong>
-                    <p>31 Jul 2026</p>
+                    <p id="deliveryDate">-</p>
                 </div>
 
                 <div>
                     <strong>Status</strong>
 
-                    <span class="status status-badge delivered">Delivered</span>
+                    <span id="statusBadge" class="status status-badge pending">
+                        -
+                    </span>
 
                 </div>
 
@@ -75,31 +77,43 @@
             <div class="details-grid">
 
                 <div>
+
                     <div class="item">
+
                         <h4>Name</h4>
-                        <p>Prasanna Kumar</p>
+
+                        <p id="customerName">-</p>
+
                     </div>
 
                     <div class="item">
+
                         <h4>Email</h4>
-                        <p>prasanna@gmail.com</p>
+
+                        <p id="customerEmail">-</p>
+
                     </div>
+
                 </div>
 
                 <div>
+
                     <div class="item">
+
                         <h4>Phone</h4>
-                        <p>+91 9876543210</p>
+
+                        <p id="customerPhone">-</p>
+
                     </div>
 
                     <div class="item">
+
                         <h4>Address</h4>
-                        <p>
-                            12, Anna Nagar,<br>
-                            Madurai,<br>
-                            Tamil Nadu - 625020
-                        </p>
+
+                        <p id="customerAddress">-</p>
+
                     </div>
+
                 </div>
 
             </div>
@@ -114,15 +128,21 @@
 
             <div class="product-box">
 
-                <img class="product-image" src="/images/MainSofaImage.jpg">
+                <img id="productImage" class="product-image" src="/images/MainSofaImage.jpg">
 
                 <div>
 
-                    <h3>Luxury Leather Sofa</h3>
+                    <h3 id="productName">-</h3>
 
-                    <p>Quantity : 1</p>
+                    <p>
+                        Quantity :
+                        <span id="productQuantity">-</span>
+                    </p>
 
-                    <p>Price : ₹89,999</p>
+                    <p>
+                        Price :
+                        ₹<span id="productPrice">0</span>
+                    </p>
 
                 </div>
 
@@ -142,7 +162,7 @@
 
                     <strong>Payment Method</strong>
 
-                    <p>UPI</p>
+                    <p id="paymentMethod">-</p>
 
                 </div>
 
@@ -151,9 +171,7 @@
                     <strong>Payment Status</strong>
 
                     <span class="paid">
-
                         Paid
-
                     </span>
 
                 </div>
@@ -162,7 +180,9 @@
 
                     <strong>Total Amount</strong>
 
-                    <h2>₹89,999</h2>
+                    <h2>
+                        ₹<span id="totalAmount">0</span>
+                    </h2>
 
                 </div>
 
@@ -178,27 +198,33 @@
 
             <select id="orderStatus">
 
-                <option>Pending</option>
+                <option value="PENDING">
+                    Pending
+                </option>
 
-                <option>Processing</option>
+                <option value="IN PROGRESS">
+                    In Progress
+                </option>
 
-                <option selected>Delivered</option>
+                <option value="DELIVERED">
+                    Delivered
+                </option>
 
-                <option>Cancelled</option>
+                <option value="CANCELLED">
+                    Cancelled
+                </option>
 
             </select>
 
             <button id="updateBtn">
-
                 Update Status
-
             </button>
 
         </div>
 
     </div>
 
-    <script src="/Admin-Orders-Details/admin-orders-details.js"></script>
+    <script src="../Admin-Orders-Details/admin-orders-details.js"></script>
 
 </body>
 

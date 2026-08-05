@@ -299,3 +299,67 @@ body {
 .details-btn:hover {
     background: #7C3E1D;
 }
+
+
+.orders-section {
+    padding: 50px 7%;
+}
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.order-card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.order-header {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 180px;
+}
+
+.order-header span,
+.order-details span {
+    color: #777;
+    font-size: 14px;
+}
+
+.order-header h3 {
+    margin: 5px 0 0;
+}
+
+.order-details {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+}
+
+.order-details p {
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+.order-card button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #b35c2e;
+    color: white;
+    cursor: pointer;
+}
+
+.order-card button:hover {
+    background: #8f4521;
+}

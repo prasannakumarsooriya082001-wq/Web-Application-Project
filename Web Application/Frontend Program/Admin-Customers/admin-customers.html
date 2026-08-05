@@ -8,7 +8,7 @@
 
     <title>Customers Management</title>
 
-    <link rel="stylesheet" href="/Admin-Customers/admin-customers.css">
+    <link rel="stylesheet" href="/Frontend Program/Admin-Customers/admin-customers.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -33,56 +33,56 @@
             <ul class="sidebar-menu">
 
                 <li>
-                    <a href="/Dashboard/dashboard.html">
+                    <a href="/Frontend Program/Dashboard/dashboard.html">
                         <i class="fa-solid fa-house"></i>
                         Dashboard
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Products/admin-products.html">
+                    <a href="/Frontend Program/Admin-Products/admin-products.html">
                         <i class="fa-solid fa-box"></i>
                         Products
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Orders/admin-orders.html">
+                    <a href="/Frontend Program/Admin-Orders/admin-orders.html">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Orders
                     </a>
                 </li>
 
                 <li class="active">
-                    <a href="/Admin-Customers/admin-customers.html">
+                    <a href="/Frontend Program/Admin-Customers/admin-customers.html">
                         <i class="fa-solid fa-users"></i>
                         Customers
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Admin-Categories/admin-categories.html">
+                    <a href="/Frontend Program/Admin-Categories/admin-categories.html">
                         <i class="fa-solid fa-layer-group"></i>
                         Categories
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/Frontend Program/Admin-Reports/admin-reports.html">
                         <i class="fa-solid fa-chart-line"></i>
                         Reports
                     </a>
                 </li>
 
                 <li>
-                    <a href="#">
+                    <a href="/Frontend Program/Admin-Settings/admin-setting.html">
                         <i class="fa-solid fa-gear"></i>
                         Settings
                     </a>
                 </li>
 
                 <li>
-                    <a href="/Login Page/login.html">
+                    <a href="/Frontend Program/Login Page/login.html">
                         <i class="fa-solid fa-right-from-bracket"></i>
                         Logout
                     </a>
@@ -106,13 +106,13 @@
 
                 </div>
 
-                <button class="add-btn" id="addCustomer">
+                <!-- <button class="add-btn" id="addCustomer">
 
                     <i class="fa-solid fa-user-plus"></i>
 
                     Add Customer
 
-                </button>
+                </button> -->
 
             </div>
 
@@ -128,15 +128,17 @@
 
                 </div>
 
-                <select id="statusFilter">
+                <div class="category-wrapper">
+                    <select class="category-filter" id="statusFilter">
+                        <option value="all">All Customers</option>
+                        <option value="active">Active</option>
 
-                    <option value="all">All Customers</option>
+                        <option value="inactive">Inactive</option>
 
-                    <option value="active">Active</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down"></i>
 
-                    <option value="inactive">Inactive</option>
-
-                </select>
+                </div>
 
             </div>
 
@@ -150,7 +152,7 @@
 
                         <tr>
 
-                            <th>Image</th>
+                            <!-- <th>Image</th> -->
 
                             <th>Name</th>
 
@@ -168,107 +170,7 @@
 
                     </thead>
 
-                    <tbody>
-
-                        <tr>
-
-                            <td>
-
-                                <img src="/images/profile1.jpg" class="customer-image">
-
-                            </td>
-
-                            <td>Prasanna Kumar</td>
-
-                            <td>prasanna@gmail.com</td>
-
-                            <td>9876543210</td>
-
-                            <td>5</td>
-
-                            <td>
-
-                                <span class="active-status">
-
-                                    Active
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="/Admin-Customer-Details/admin-customer-details.html" class="view-btn">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                </a>
-
-                                <a href="/Edit-Customers/edit-customers.html" class="edit-btn">
-
-                                    <i class="fa-solid fa-pen"></i>
-
-                                </a>
-
-                                <button class="delete-btn">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>
-
-                                <img src="/images/profile2.jpg" class="customer-image">
-
-                            </td>
-
-                            <td>Rahul</td>
-
-                            <td>rahul@gmail.com</td>
-
-                            <td>9123456789</td>
-
-                            <td>2</td>
-
-                            <td>
-
-                                <span class="inactive-status">
-
-                                    Inactive
-
-                                </span>
-
-                            </td>
-
-                            <td>
-
-                                <a href="/Admin-Customer-Details/" class="view-btn">
-
-                                    <i class="fa-solid fa-eye"></i>
-
-                                </a>
-
-                                <a href="/Edit-Customers/edit-customers.html" class="edit-btn">
-
-                                    <i class="fa-solid fa-pen"></i>
-
-                                </a>
-
-                                <button class="delete-btn">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
-                            </td>
-
-                        </tr>
+                    <tbody id="customerTableBody">
 
                     </tbody>
 
@@ -280,7 +182,7 @@
 
     </div>
 
-    <script src="/Admin-Customers/admin-customers.js"></script>
+    <script src="/Frontend Program/Admin-Customers/admin-customers.js"></script>
 
 </body>
 

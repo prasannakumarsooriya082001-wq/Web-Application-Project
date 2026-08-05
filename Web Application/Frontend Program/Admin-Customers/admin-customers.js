@@ -1,94 +1,365 @@
+console.log("Admin Customers JS Loaded");
+
+
 // ==========================
-// Add Customer
+// ADMIN LOGIN CHECK
 // ==========================
 
-const addCustomer = document.getElementById("addCustomer");
+const loggedInAdmin = JSON.parse(localStorage.getItem("loggedInAdmin"));
 
-if (addCustomer) {
 
-    addCustomer.addEventListener("click", function () {
+if (
+    !loggedInAdmin ||
+    loggedInAdmin.role !== "ADMIN" ||
+    !loggedInAdmin.token
+) {
 
-        window.location.href = "/Add-Customers/add-customers.html";
+    localStorage.removeItem("loggedInAdmin");
 
-    });
+    window.location.replace(
+        "../Login Page/login.html"
+    );
 
 }
 
 
 // ==========================
-// Search Customers
+// ELEMENTS
 // ==========================
 
-const searchInput = document.getElementById("search");
+const tableBody =
+    document.getElementById("customerTableBody");
+
+const searchInput =
+    document.getElementById("search");
+
+const statusFilter =
+    document.getElementById("statusFilter");
+
+
+// ==========================
+// CUSTOMER DATA
+// ==========================
+
+let customers = [];
+
+
+// ==========================
+// LOAD CUSTOMERS
+// ==========================
+
+function loadCustomers() {
+
+    fetch(
+        "http://localhost:8080/customer/admin/all",
+        {
+
+            method: "GET",
+
+            headers: {
+
+                "Authorization":
+                    "Bearer " +
+                    loggedInAdmin.token
+
+            }
+
+        }
+    )
+
+        .then(response => {
+
+            console.log(
+                "Customer API Status:",
+                response.status
+            );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load customers"
+                );
+
+            }
+
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            console.log(
+                "Customers:",
+                data
+            );
+
+
+            customers = data;
+
+            displayCustomers(customers);
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Customer Loading Error:",
+                error
+            );
+
+        });
+
+}
+
+
+// ==========================
+// DISPLAY CUSTOMERS
+// ==========================
+
+function displayCustomers(data) {
+
+    tableBody.innerHTML = "";
+
+
+    if (data.length === 0) {
+
+        tableBody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6"
+                    style="text-align:center;">
+
+                    No customers found
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    data.forEach(customer => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                ${customer.firstName}
+                ${customer.lastName}
+            </td>
+
+            <td>
+                ${customer.email}
+            </td>
+
+            <td>
+                ${customer.phone}
+            </td>
+
+            <td>
+                ${customer.orderCount}
+            </td>
+
+            <td>
+
+                <span class="active-status">
+
+                    Active
+
+                </span>
+
+            </td>
+
+            <td>
+
+                <a
+                    href="../Admin-Customer-Details/admin-customer-details.html?id=${customer.customerId}"
+                    class="view-btn">
+
+                    <i class="fa-solid fa-eye"></i>
+
+                </a>
+
+                <a
+                    href="../Edit-Customers/edit-customers.html?id=${customer.customerId}"
+                    class="edit-btn">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                </a>
+
+                <button
+                    class="delete-btn"
+                    data-id="${customer.customerId}">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        tableBody.appendChild(row);
+
+    });
+
+
+    addDeleteEvents();
+
+}
+
+
+// ==========================
+// SEARCH
+// ==========================
 
 if (searchInput) {
 
-    searchInput.addEventListener("keyup", function () {
+    searchInput.addEventListener(
+        "keyup",
+        function () {
 
-        const filter = searchInput.value.toLowerCase();
+            const searchValue =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
 
-        const rows = document.querySelectorAll("tbody tr");
 
-        rows.forEach(row => {
+            const filtered =
+                customers.filter(customer => {
 
-            const text = row.innerText.toLowerCase();
+                    const fullName =
+                        customer.firstName +
+                        " " +
+                        customer.lastName;
 
-            if (text.includes(filter)) {
 
-                row.style.display = "";
+                    return (
 
-            }
+                        fullName
+                            .toLowerCase()
+                            .includes(searchValue)
 
-            else {
+                        ||
 
-                row.style.display = "none";
+                        customer.email
+                            .toLowerCase()
+                            .includes(searchValue)
 
-            }
+                        ||
 
-        });
+                        customer.phone
+                            .toLowerCase()
+                            .includes(searchValue)
 
-    });
+                    );
+
+                });
+
+
+            displayCustomers(filtered);
+
+        }
+    );
 
 }
 
 
 // ==========================
-// Filter Customers
+// STATUS FILTER
 // ==========================
-
-const statusFilter = document.getElementById("statusFilter");
 
 if (statusFilter) {
 
-    statusFilter.addEventListener("change", function () {
+    statusFilter.addEventListener(
+        "change",
+        function () {
 
-        const value = statusFilter.value.toLowerCase();
+            const value =
+                statusFilter.value;
 
-        const rows = document.querySelectorAll("tbody tr");
-
-        rows.forEach(row => {
-
-            const status = row.querySelector("span").innerText.toLowerCase();
 
             if (value === "all") {
 
-                row.style.display = "";
+                displayCustomers(customers);
+
+                return;
 
             }
 
-            else if (status === value) {
 
-                row.style.display = "";
+            // Current CustomerModel
+            // does not have status field.
+
+            if (value === "active") {
+
+                displayCustomers(customers);
 
             }
 
             else {
 
-                row.style.display = "none";
+                displayCustomers([]);
 
             }
 
-        });
+        }
+    );
+
+}
+
+
+// ==========================
+// DELETE EVENTS
+// ==========================
+
+function addDeleteEvents() {
+
+    const deleteButtons =
+        document.querySelectorAll(
+            ".delete-btn"
+        );
+
+
+    deleteButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const customerId =
+                    this.dataset.id;
+
+
+                const confirmDelete =
+                    confirm(
+                        "Are you sure you want to delete this customer?"
+                    );
+
+
+                if (!confirmDelete) {
+
+                    return;
+
+                }
+
+
+                deleteCustomer(customerId);
+
+            }
+        );
 
     });
 
@@ -96,93 +367,84 @@ if (statusFilter) {
 
 
 // ==========================
-// Delete Customer
+// DELETE CUSTOMER
 // ==========================
 
-const deleteButtons = document.querySelectorAll(".delete-btn");
+function deleteCustomer(customerId) {
 
-deleteButtons.forEach(button => {
+    fetch(
+        "http://localhost:8080/customer/admin/"
+        + customerId,
+        {
 
-    button.addEventListener("click", function () {
+            method: "DELETE",
 
-        if (confirm("Are you sure you want to delete this customer?")) {
+            headers: {
 
-            this.closest("tr").remove();
+                "Authorization":
+                    "Bearer " +
+                    loggedInAdmin.token
 
-            alert("✅ Customer Deleted Successfully!");
+            }
 
         }
+    )
 
-    });
+        .then(response => {
 
-});
+            if (!response.ok) {
 
+                throw new Error(
+                    "Failed to delete customer"
+                );
 
-// ==========================
-// View Customer
-// ==========================
-
-const viewButtons = document.querySelectorAll(".view-btn");
-
-viewButtons.forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        console.log("Opening Customer Details...");
-
-    });
-
-});
+            }
 
 
-// ==========================
-// Edit Customer
-// ==========================
-
-const editButtons = document.querySelectorAll(".edit-btn");
-
-editButtons.forEach(button => {
-
-    button.addEventListener("click", function () {
-
-        console.log("Opening Edit Customer Page...");
-
-    });
-
-});
+            alert(
+                "Customer deleted successfully"
+            );
 
 
-// ==========================
-// Row Animation
-// ==========================
+            loadCustomers();
 
-const rows = document.querySelectorAll("tbody tr");
+        })
 
-rows.forEach((row, index) => {
+        .catch(error => {
 
-    row.style.opacity = "0";
+            console.error(
+                "Delete Customer Error:",
+                error
+            );
 
-    row.style.transform = "translateY(20px)";
 
-    setTimeout(() => {
+            alert(
+                "Failed to delete customer"
+            );
 
-        row.style.transition = ".4s";
+        });
 
-        row.style.opacity = "1";
-
-        row.style.transform = "translateY(0)";
-
-    }, index * 150);
-
-});
+}
 
 
 // ==========================
-// Page Loaded
+// LOAD PAGE
 // ==========================
 
-window.addEventListener("load", function () {
+loadCustomers();
 
-    console.log("Customers Page Loaded Successfully");
 
-});
+// ==========================
+// PAGE LOADED
+// ==========================
+
+window.addEventListener(
+    "load",
+    function () {
+
+        console.log(
+            "Customers Page Loaded Successfully"
+        );
+
+    }
+);

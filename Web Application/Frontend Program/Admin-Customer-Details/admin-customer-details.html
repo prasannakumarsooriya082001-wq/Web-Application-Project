@@ -8,7 +8,7 @@
 
     <title>Customer Details</title>
 
-    <link rel="stylesheet" href="/Admin-Customer-Details/admin-customer-details.css">
+    <link rel="stylesheet" href="../Admin-Customer-Details/admin-customer-details.css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -22,7 +22,7 @@
 
             <h1>Customer Details</h1>
 
-            <a href="/Admin-Customers/admin-customers.html" class="back-btn">
+            <a href="../Admin-Customers/admin-customers.html" class="back-btn">
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -38,13 +38,11 @@
 
             <div class="profile-section">
 
-                <img src="/images/ProfileImage.png" class="profile-image">
-
                 <div>
 
-                    <h2>Prasanna Kumar</h2>
+                    <h2 id="customerName">Customer Name</h2>
 
-                    <p>Premium Customer</p>
+                    <p id="customerRole">Customer</p>
 
                 </div>
 
@@ -56,7 +54,7 @@
 
                     <strong>Email</strong>
 
-                    <p>prasanna@gmail.com</p>
+                    <p id="customerEmail">-</p>
 
                 </div>
 
@@ -64,7 +62,7 @@
 
                     <strong>Phone</strong>
 
-                    <p>+91 9876543210</p>
+                    <p id="customerPhone">-</p>
 
                 </div>
 
@@ -72,10 +70,8 @@
 
                     <strong>Address</strong>
 
-                    <p>
-
-                        12, Anna Nagar,<br>Madurai,<br>Tamil Nadu - 625020
-
+                    <p id="customerAddress">
+                        Address not available
                     </p>
 
                 </div>
@@ -84,7 +80,9 @@
 
                     <strong>Status</strong>
 
-                    <span class="status active">Active</span>
+                    <span id="customerStatus" class="status active">
+                        Active
+                    </span>
 
                 </div>
 
@@ -118,56 +116,12 @@
 
                     </thead>
 
-                    <tbody>
+                    <tbody id="orderTableBody">
 
                         <tr>
 
-                            <td>ORD001</td>
-
-                            <td>28 Jul 2026</td>
-
-                            <td>₹89,999</td>
-
-                            <td>
-
-                                <span class="delivered">Delivered</span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>ORD002</td>
-
-                            <td>20 Jul 2026</td>
-
-                            <td>₹54,999</td>
-
-                            <td>
-
-                                <span class="processing">Processing</span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-
-                            <td>ORD003</td>
-
-                            <td>15 Jul 2026</td>
-
-                            <td>₹42,999</td>
-
-                            <td>
-
-                                <span class="pending">
-
-                                    Pending
-
-                                </span>
-
+                            <td colspan="4" style="text-align:center;">
+                                Loading orders...
                             </td>
 
                         </tr>
@@ -192,7 +146,7 @@
 
                     <h3>Total Orders</h3>
 
-                    <p>3</p>
+                    <p id="totalOrders">0</p>
 
                 </div>
 
@@ -200,7 +154,7 @@
 
                     <h3>Total Purchase</h3>
 
-                    <p>₹1,87,997</p>
+                    <p id="totalPurchase">₹0</p>
 
                 </div>
 
@@ -208,7 +162,7 @@
 
                     <h3>Last Order</h3>
 
-                    <p>28 Jul 2026</p>
+                    <p id="lastOrder">-</p>
 
                 </div>
 
@@ -218,7 +172,7 @@
 
     </div>
 
-    <script src="/Admin-Customer-Details/admin-customer-details.js"></script>
+    <script src="../Admin-Customer-Details/admin-customer-details.js"></script>
 
 </body>
 

@@ -178,6 +178,17 @@ body {
 
 }
 
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 380px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 .chart-card {
 
     background: white;
@@ -210,13 +221,13 @@ body {
 
 }
 
-#revenueChart {
+/* #revenueChart {
 
     width: 100%;
 
     height: 380px;
 
-}
+} */
 
 /* =======================================
         Small Charts
