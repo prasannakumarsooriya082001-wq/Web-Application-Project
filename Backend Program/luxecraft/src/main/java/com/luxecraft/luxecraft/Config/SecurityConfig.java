@@ -38,9 +38,12 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 "/customer/register",
                                                                 "/customer/login",
+                                                                "/customer/forgot-password",
+                                                                "/customer/verify-otp",
                                                                 "/product/**",
                                                                 "/admin/login",
                                                                 "/category/**",
+                                                                "/customer/reset-password",
                                                                 "/uploads/**")
                                                 .permitAll()
 
@@ -54,9 +57,7 @@ public class SecurityConfig {
 
                                                 .anyRequest().authenticated())
 
-                                .addFilterBefore(
-                                                jwtAuthenticationFilter,
-                                                UsernamePasswordAuthenticationFilter.class);
+                                .addFilterBefore(jwtAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }

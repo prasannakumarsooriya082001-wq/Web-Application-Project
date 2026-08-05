@@ -1,105 +1,319 @@
-const newPassword = document.getElementById("newPassword");
-const confirmPassword = document.getElementById("confirmPassword");
-
-const toggleNew = document.getElementById("toggleNewPassword");
-const toggleConfirm = document.getElementById("toggleConfirmPassword");
-
-const form = document.getElementById("resetForm");
-const message = document.getElementById("matchMessage");
+console.log("Reset Password JS Loaded");
 
 
-// =========================
-// Show / Hide Password
-// =========================
+// =====================================================
+// ELEMENTS
+// =====================================================
 
-function togglePassword(input, icon){
+const newPassword =
+    document.getElementById("newPassword");
 
-    if(input.type === "password"){
+const confirmPassword =
+    document.getElementById("confirmPassword");
+
+const toggleNew =
+    document.getElementById("toggleNewPassword");
+
+const toggleConfirm =
+    document.getElementById("toggleConfirmPassword");
+
+const form =
+    document.getElementById("resetForm");
+
+const message =
+    document.getElementById("matchMessage");
+
+const updateButton =
+    document.querySelector(".update-btn");
+
+
+// =====================================================
+// GET RESET EMAIL
+// =====================================================
+
+const email =
+    sessionStorage.getItem("resetEmail");
+
+
+// =====================================================
+// CHECK OTP VERIFICATION
+// =====================================================
+
+const otpVerified =
+    sessionStorage.getItem("otpVerified");
+
+
+if (!email || otpVerified !== "true") {
+
+    alert(
+        "Invalid password reset session. Please try again."
+    );
+
+    window.location.href =
+        "/Frontend Program/Forgot Password Page/forgot-page.html";
+
+}
+
+
+// =====================================================
+// SHOW / HIDE PASSWORD
+// =====================================================
+
+function togglePassword(input, icon) {
+
+    if (input.type === "password") {
 
         input.type = "text";
 
         icon.classList.remove("fa-eye");
+
         icon.classList.add("fa-eye-slash");
 
-    }
-    else{
+    } else {
 
         input.type = "password";
 
         icon.classList.remove("fa-eye-slash");
+
         icon.classList.add("fa-eye");
 
     }
 
 }
 
-toggleNew.addEventListener("click", () => {
-    togglePassword(newPassword, toggleNew);
-});
 
-toggleConfirm.addEventListener("click", () => {
-    togglePassword(confirmPassword, toggleConfirm);
-});
+toggleNew.addEventListener(
+    "click",
+    function () {
+
+        togglePassword(
+            newPassword,
+            toggleNew
+        );
+
+    }
+);
 
 
-// =========================
-// Live Password Match
-// =========================
+toggleConfirm.addEventListener(
+    "click",
+    function () {
 
-function checkPassword(){
+        togglePassword(
+            confirmPassword,
+            toggleConfirm
+        );
 
-    if(confirmPassword.value === ""){
+    }
+);
+
+
+// =====================================================
+// PASSWORD MATCH
+// =====================================================
+
+function checkPassword() {
+
+    if (confirmPassword.value === "") {
 
         message.textContent = "";
+
         return;
 
     }
 
-    if(newPassword.value === confirmPassword.value){
 
-        message.textContent = "✔ Passwords Match";
-        message.style.color = "green";
+    if (
+        newPassword.value ===
+        confirmPassword.value
+    ) {
 
-    }
-    else{
+        message.textContent =
+            "✔ Passwords Match";
 
-        message.textContent = "✖ Passwords Do Not Match";
-        message.style.color = "red";
+        message.style.color =
+            "green";
+
+    } else {
+
+        message.textContent =
+            "✖ Passwords Do Not Match";
+
+        message.style.color =
+            "red";
 
     }
 
 }
 
-newPassword.addEventListener("keyup", checkPassword);
-confirmPassword.addEventListener("keyup", checkPassword);
+
+newPassword.addEventListener(
+    "input",
+    checkPassword
+);
+
+confirmPassword.addEventListener(
+    "input",
+    checkPassword
+);
 
 
-// =========================
-// Form Submit
-// =========================
+// =====================================================
+// RESET PASSWORD
+// =====================================================
 
-form.addEventListener("submit", function(e){
+form.addEventListener(
+    "submit",
+    async function (e) {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    if(newPassword.value.length < 8){
 
-        alert("Password must contain at least 8 characters.");
-        return;
+        const password =
+            newPassword.value.trim();
+
+        const confirm =
+            confirmPassword.value.trim();
+
+
+        // =================================================
+        // VALIDATION
+        // =================================================
+
+        if (password === "") {
+
+            alert(
+                "Please enter a new password."
+            );
+
+            return;
+
+        }
+
+
+        if (password.length < 8) {
+
+            alert(
+                "Password must contain at least 8 characters."
+            );
+
+            return;
+
+        }
+
+
+        if (password !== confirm) {
+
+            alert(
+                "Passwords do not match."
+            );
+
+            return;
+
+        }
+
+
+        // =================================================
+        // BUTTON LOADING
+        // =================================================
+
+        updateButton.disabled = true;
+
+        updateButton.textContent =
+            "Updating...";
+
+
+        try {
+
+            // =================================================
+            // RESET PASSWORD API
+            // =================================================
+
+            const response = await fetch(
+                "http://localhost:8080/customer/reset-password?email="
+                + encodeURIComponent(email)
+                + "&newPassword="
+                + encodeURIComponent(password),
+                {
+                    method: "POST"
+                }
+            );
+
+
+            const result =
+                await response.text();
+
+
+            console.log(
+                "Reset Password Status:",
+                response.status
+            );
+
+            console.log(
+                "Reset Password Response:",
+                result
+            );
+
+
+            // =================================================
+            // API ERROR
+            // =================================================
+
+            if (!response.ok) {
+
+                throw new Error(result);
+
+            }
+
+
+            // =================================================
+            // SUCCESS
+            // =================================================
+
+            alert(
+                "Password updated successfully."
+            );
+
+
+            // Remove reset session
+
+            sessionStorage.removeItem(
+                "resetEmail"
+            );
+
+            sessionStorage.removeItem(
+                "otpVerified"
+            );
+
+
+            // Go to Login
+
+            window.location.href =
+                "../Login Page/login.html";
+
+
+        } catch (error) {
+
+            console.error(
+                "Reset Password Error:",
+                error
+            );
+
+
+            alert(
+                error.message ||
+                "Unable to reset password."
+            );
+
+
+        } finally {
+
+            updateButton.disabled = false;
+
+            updateButton.textContent =
+                "Update Password";
+
+        }
 
     }
-
-    if(newPassword.value !== confirmPassword.value){
-
-        alert("Passwords do not match.");
-        return;
-
-    }
-
-    alert("Password Updated Successfully!");
-
-    // Backend connect pannumbodhu API call varum
-
-    window.location.href="/Login Page/login.html";
-
-});
+);

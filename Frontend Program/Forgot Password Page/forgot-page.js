@@ -1,18 +1,92 @@
-const form = document.getElementById("forgotForm");
+console.log("Forgot Password JS Loaded");
 
-form.addEventListener("submit", function(e){
+const form = document.getElementById("forgotForm");
+const emailInput = document.getElementById("email");
+const sendButton = document.querySelector(".sentBtn");
+
+const API_URL = "http://localhost:8080/customer/forgot-password";
+
+
+form.addEventListener("submit", async function (e) {
 
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
 
-    if(email === ""){
+    // =====================================================
+    // GET EMAIL
+    // =====================================================
+
+    const email = emailInput.value.trim();
+
+
+    // =====================================================
+    // VALIDATE EMAIL
+    // =====================================================
+
+    if (email === "") {
 
         alert("Please enter your email.");
+
         return;
     }
 
-    // Temporary (Backend later)
-    window.location.href = "/Verify-pass/verify-otp.html";
+
+    if (!emailInput.checkValidity()) {
+
+        alert("Please enter a valid email address.");
+
+        return;
+    }
+
+
+    // =====================================================
+    // BUTTON LOADING
+    // =====================================================
+
+    sendButton.disabled = true;
+
+    sendButton.textContent = "Sending...";
+
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/customer/forgot-password?email="
+            + encodeURIComponent(email),
+            {
+                method: "POST"
+            }
+        );
+
+        const message = await response.text();
+
+        if (!response.ok) {
+            throw new Error(message);
+        }
+
+        // Save email for OTP page
+        sessionStorage.setItem("resetEmail", email);
+
+        alert("OTP sent successfully to your email.");
+
+        window.location.href =
+            "/Frontend Program/Verify-pass/verify-otp.html";
+
+    } catch (error) {
+
+        console.error("Forgot Password Error:", error);
+
+        alert(error.message || "Failed to send OTP.");
+    }
+    finally {
+
+        sendButton.disabled = false;
+
+        sendButton.textContent = "Send OTP";
+
+    }
 
 });
+
+
+
