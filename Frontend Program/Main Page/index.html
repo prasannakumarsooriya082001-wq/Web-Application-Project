@@ -37,9 +37,9 @@
 
             <div class="nav-right">
 
-                <button class="icon-btn">🔍</button>
+                <!-- <button class="icon-btn">🔍</button> -->
 
-                <button class="icon-btn cart">🛒<span class="badge">2</span></button>
+                <button class="icon-btn cart" id="cart-btn">🛒<span class="badge">2</span></button>
 
                 <button class="login-btn" id="login-btn">Login</button>
 
@@ -140,95 +140,24 @@
     <section class="products">
 
         <div class="section-title">
+
             <h2>Featured Collection</h2>
+
             <p>Discover our handcrafted luxury sofas.</p>
+
         </div>
 
-        <div class="product-grid">
+        <div class="product-grid" id="productGrid">
 
-            <!-- Product 1 -->
-            <div class="product-card">
+            <!-- Backend products will load here -->
 
-                <span class="discount">-20%</span>
+        </div>
 
-                <button class="wishlist">❤</button>
+        <div class="view-all-container">
 
-                <a href="../Product Details Page/product-details.html">
-                <img src="/images/sofa1.jpg" alt="Modern Luxury Sofa"></a>
-
-                <h3>Modern Luxury Sofa</h3>
-
-                <div class="rating">⭐⭐⭐⭐⭐ (120)</div>
-
-                <div class="price">
-                    <span class="new-price">$899</span>
-                    <span class="old-price">$1099</span>
-                </div>
-
-                <button class="cart-btn">Add To Cart</button>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="product-card">
-
-                <span class="discount">NEW</span>
-
-                <button class="wishlist">❤</button>
-
-                <a href="../Product Details Page/product-details.html">
-                <img src="/images/sofa1.jpg" alt="Royal Sofa"></a>
-
-                <h3>Royal Sofa</h3>
-
-                <div class="rating">⭐⭐⭐⭐⭐ (95)</div>
-
-                <div class="price">
-                    <span class="new-price">$1299</span>
-                </div>
-
-                <button class="cart-btn">Add To Cart</button>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="product-card">
-
-                <span class="discount">SALE</span>
-
-                <button class="wishlist">❤</button>
-
-                <a href="../Product Details Page/product-details.html">
-                <img src="/images/sofa1.jpg" alt="Luxury Sofa"></a>
-
-                <h3>Luxury Sofa</h3>
-
-                <div class="rating">⭐⭐⭐⭐☆ (87)</div>
-
-                <div class="price">
-                    <span class="new-price">$999</span>
-                    <span class="old-price">$1199</span>
-                </div>
-
-                <button class="cart-btn">Add To Cart</button>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="product-card">
-
-                <button class="wishlist">❤</button>
-
-                <a href="../Product Details Page/product-details.html">
-                <img src="/images/sofa1.jpg" alt="Classic Sofa"></a>
-
-                <h3>Classic Sofa</h3>
-
-                <div class="rating">⭐⭐⭐⭐⭐ (142)</div>
-
-                <div class="price">
-                    <span class="new-price">$799</span>
-                </div>
-
-                <button class="cart-btn">Add To Cart</button>
-            </div>
+            <button id="viewAllBtn" class="view-all-btn">
+                View All Products
+            </button>
 
         </div>
 

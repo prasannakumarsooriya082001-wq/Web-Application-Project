@@ -375,6 +375,16 @@ body {
     margin: 20px;
 }
 
+.product-card h3 a{
+    text-decoration: none;
+    color: #2B2420;
+    transition: .3s;
+}
+
+.product-card h3 a:hover {
+    color: #A6572E;
+}
+
 .rating {
     margin: 0 20px;
     color: #f4b400;
@@ -410,6 +420,26 @@ body {
 
 .cart-btn:hover {
     background: #7C3E1D;
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.view-all-btn {
+    padding: 13px 30px;
+    border: none;
+    border-radius: 8px;
+    background: #b45b2a;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-all-btn:hover {
+    background: #93471f;
 }
 
 /* *****************************************************category page***************************************************** */
