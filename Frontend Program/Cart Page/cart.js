@@ -1,245 +1,773 @@
 console.log("Cart JS Loaded");
 
 
-window.onload = function () {
+// =====================================================
+// LOGGED IN CUSTOMER
+// =====================================================
 
-    loadCart();
+let loggedInCustomer =
+    JSON.parse(
+        localStorage.getItem("loggedInCustomer")
+    );
 
-};
 
+// =====================================================
+// CART API
+// =====================================================
+
+const cartApi =
+    "http://localhost:8080/cart";
+
+
+// =====================================================
+// NAVBAR ELEMENTS
+// =====================================================
+
+const loginButton =
+    document.getElementById("login-btn");
+
+const signUpButton =
+    document.getElementById("signup-btn");
+
+const cartButton =
+    document.getElementById("cart-btn");
+
+const cartBadge =
+    document.getElementById("cartBadge");
+
+
+// =====================================================
+// CART ELEMENTS
+// =====================================================
+
+const cartItemsContainer =
+    document.getElementById("cartItems");
+
+const subtotalElement =
+    document.getElementById("subtotal");
+
+const shippingElement =
+    document.getElementById("shipping");
+
+const taxElement =
+    document.getElementById("tax");
+
+const totalElement =
+    document.getElementById("total");
+
+const checkoutButton =
+    document.getElementById("checkoutBtn");
+
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        console.log("Cart Page Loaded");
+
+
+        // Navbar
+        setupNavbar();
+
+
+        // Cart
+        loadCart();
+
+
+        // Checkout
+        setupCheckout();
+
+    }
+);
+
+
+// =====================================================
+// NAVBAR
+// =====================================================
+
+function setupNavbar() {
+
+    // =================================================
+    // GUEST USER
+    // =================================================
+
+    if (!loggedInCustomer) {
+
+        console.log("Guest User");
+
+
+        // -----------------------------
+        // LOGIN
+        // -----------------------------
+
+        if (loginButton) {
+
+            loginButton.textContent =
+                "Login";
+
+
+            loginButton.onclick =
+                function () {
+
+                    window.location.href =
+                        "../Login Page/login.html";
+
+                };
+
+        }
+
+
+        // -----------------------------
+        // SIGN UP
+        // -----------------------------
+
+        if (signUpButton) {
+
+            signUpButton.textContent =
+                "Sign Up";
+
+
+            signUpButton.onclick =
+                function () {
+
+                    window.location.href =
+                        "../Register Page/register.html";
+
+                };
+
+        }
+
+
+        // -----------------------------
+        // CART
+        // -----------------------------
+
+        if (cartButton) {
+
+            cartButton.onclick =
+                function () {
+
+                    window.location.href =
+                        "../Login Page/login.html";
+
+                };
+
+        }
+
+
+        return;
+
+    }
+
+
+    // =================================================
+    // LOGGED IN USER
+    // =================================================
+
+    console.log(
+        "Logged In Customer:",
+        loggedInCustomer
+    );
+
+
+    // =================================================
+    // PROFILE
+    // =================================================
+
+    if (loginButton) {
+
+        loginButton.textContent =
+            loggedInCustomer.firstName ||
+            loggedInCustomer.email ||
+            "Profile";
+
+
+        loginButton.onclick =
+            function () {
+
+                window.location.href =
+                    "../Profile Page/profile.html";
+
+            };
+
+    }
+
+
+    // =================================================
+    // LOGOUT
+    // =================================================
+
+    if (signUpButton) {
+
+        signUpButton.textContent =
+            "Logout";
+
+
+        signUpButton.onclick =
+            function () {
+
+                localStorage.removeItem(
+                    "loggedInCustomer"
+                );
+
+
+                window.location.href =
+                    "../Main Page/index.html";
+
+            };
+
+    }
+
+
+    // =================================================
+    // CART
+    // =================================================
+
+    if (cartButton) {
+
+        cartButton.onclick =
+            function () {
+
+                window.location.href =
+                    "../Cart Page/cart.html";
+
+            };
+
+    }
+
+}
+
+
+// =====================================================
+// LOAD CART
+// =====================================================
 
 function loadCart() {
 
-    const loggedInCustomer =
-        JSON.parse(localStorage.getItem("loggedInCustomer"));
+    // =================================================
+    // LOGIN CHECK
+    // =================================================
 
     if (!loggedInCustomer) {
+
+        console.log(
+            "User not logged in"
+        );
+
+
+        showLoginMessage();
+
+
+        return;
+
+    }
+
+
+    // =================================================
+    // TOKEN CHECK
+    // =================================================
+
+    if (!loggedInCustomer.token) {
+
+        console.log(
+            "JWT token not found"
+        );
+
+
+        localStorage.removeItem(
+            "loggedInCustomer"
+        );
+
 
         window.location.href =
             "../Login Page/login.html";
 
+
         return;
+
     }
 
 
-    fetch("http://localhost:8080/cart", {
+    console.log(
+        "Loading cart for:",
+        loggedInCustomer.email
+    );
 
-        method: "GET",
 
-        headers: {
+    // =================================================
+    // GET CURRENT USER CART
+    // =================================================
 
-            "Authorization":"Bearer " + loggedInCustomer.token
+    fetch(
+        cartApi,
+        {
+
+            method: "GET",
+
+            headers: {
+
+                "Authorization":
+                    "Bearer " +
+                    loggedInCustomer.token
+
+            }
+
         }
+    )
 
-    })
 
         .then(response => {
 
+            console.log(
+                "Cart API Status:",
+                response.status
+            );
+
+
             if (!response.ok) {
 
-                throw new Error("Failed to load cart");
+                throw new Error(
+                    "Failed to load cart"
+                );
 
             }
+
 
             return response.json();
 
         })
 
-        .then(cart => {
 
-            console.log("Cart:", cart);
+        .then(cartItems => {
 
-            displayCart(cart);
+            console.log(
+                "Current User Cart:",
+                cartItems
+            );
+
+
+            displayCart(cartItems);
+
+
+            updateCartBadge(cartItems);
 
         })
 
+
         .catch(error => {
 
-            console.error("Cart Error:", error);
+            console.error(
+                "Cart Error:",
+                error
+            );
+
+
+            cartItemsContainer.innerHTML = `
+
+                <div class="empty-cart">
+
+                    <h2>
+                        Unable to load cart
+                    </h2>
+
+                    <p>
+                        Please try again later.
+                    </p>
+
+                </div>
+
+            `;
 
         });
 
 }
 
 
+// =====================================================
+// DISPLAY CART
+// =====================================================
 
+function displayCart(cartItems) {
 
-function displayCart(cart) {
+    if (!cartItemsContainer) {
 
-    const cartItems = document.getElementById("cartItems");
+        console.error(
+            "cartItems element not found"
+        );
 
-    cartItems.innerHTML = "";
-
-    if (cart.length === 0) {
-
-        cartItems.innerHTML = `
-            <div class="empty-cart">
-                <h2>Your Cart is Empty</h2>
-                <p>Add some products to your cart.</p>
-            </div>
-        `;
-
-        updateSummary(cart);
 
         return;
+
     }
 
-    cart.forEach(item => {
 
-        cartItems.innerHTML += `
+    // Clear old content
 
-        <div class="cart-item">
+    cartItemsContainer.innerHTML = "";
 
-            <img src="http://localhost:8080/uploads/${item.imageUrl}">
 
-            <div class="item-details">
+    // =================================================
+    // EMPTY CART
+    // =================================================
 
-                <h3>${item.productName}</h3>
+    if (
+        !cartItems ||
+        cartItems.length === 0
+    ) {
 
-                <span class="price">
-                    ₹${item.price}
-                </span>
+        cartItemsContainer.innerHTML = `
 
-            </div>
+            <div class="empty-cart">
 
-            <div class="quantity">
+                <i class="fa-solid fa-cart-shopping"></i>
 
-                <button onclick="decreaseQuantity(${item.cartId}, ${item.quantity})">
-                    -
+                <h2>
+                    Your Cart is Empty
+                </h2>
+
+                <p>
+                    You haven't added any products yet.
+                </p>
+
+                <button
+                    onclick="goToProducts()">
+
+                    Continue Shopping
+
                 </button>
 
-                <span>${item.quantity}</span>
-
-                <button onclick="increaseQuantity(${item.cartId}, ${item.quantity})">
-                    +
-                </button>
-
             </div>
-
-            <div class="total-price">
-
-                ₹${item.price * item.quantity}
-
-            </div>
-
-            <button
-                class="remove-btn"
-                onclick="removeItem(${item.cartId})">
-
-                🗑
-
-            </button>
-
-        </div>
 
         `;
 
-    });
 
-    updateSummary(cart);
-
-}
+        updateSummary(0);
 
 
+        return;
 
-function updateSummary(cart) {
+    }
+
+
+    // =================================================
+    // CART ITEMS
+    // =================================================
 
     let subtotal = 0;
 
-    cart.forEach(item => {
-        subtotal += item.price * item.quantity;
+
+    cartItems.forEach(item => {
+
+
+        const itemTotal =
+            Number(item.price) *
+            Number(item.quantity);
+
+
+        subtotal += itemTotal;
+
+
+        cartItemsContainer.innerHTML += `
+
+            <div
+                class="cart-item"
+                id="cart-item-${item.cartId}">
+
+
+                <!-- ================= IMAGE ================= -->
+
+                <div class="cart-image">
+
+                    <img
+                        src="http://localhost:8080/uploads/${item.imageUrl}"
+                        alt="${item.productName}">
+
+                </div>
+
+
+                <!-- ================= PRODUCT INFO ================= -->
+
+                <div class="cart-info">
+
+                    <h3>
+                        ${item.productName}
+                    </h3>
+
+
+                    <p class="cart-price">
+
+                        ₹${item.price}
+
+                    </p>
+
+                </div>
+
+
+                <!-- ================= QUANTITY ================= -->
+
+                <div class="quantity-box">
+
+                    <button
+                        onclick="
+                            decreaseQuantity(
+                                ${item.cartId},
+                                ${item.quantity}
+                            )
+                        ">
+
+                        -
+
+                    </button>
+
+
+                    <span>
+
+                        ${item.quantity}
+
+                    </span>
+
+
+                    <button
+                        onclick="
+                            increaseQuantity(
+                                ${item.cartId},
+                                ${item.quantity}
+                            )
+                        ">
+
+                        +
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================= ITEM TOTAL ================= -->
+
+                <div class="item-total">
+
+                    ₹${itemTotal}
+
+                </div>
+
+
+                <!-- ================= REMOVE ================= -->
+
+                <button
+                    class="remove-btn"
+                    onclick="
+                        removeCartItem(
+                            ${item.cartId}
+                        )
+                    ">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
+
+            </div>
+
+        `;
 
     });
 
-    let tax = subtotal * 0.05;
 
-    let total = subtotal + tax;
+    // =================================================
+    // UPDATE SUMMARY
+    // =================================================
 
-    document.getElementById("subtotal").textContent =
-        "₹" + subtotal.toFixed(2);
-
-    document.getElementById("tax").textContent =
-        "₹" + tax.toFixed(2);
-
-    document.getElementById("total").textContent =
-        "₹" + total.toFixed(2);
+    updateSummary(subtotal);
 
 }
 
 
+// =====================================================
+// UPDATE SUMMARY
+// =====================================================
 
-function increaseQuantity(cartId, currentQuantity) {
+function updateSummary(subtotal) {
 
-    const loggedInCustomer =
-        JSON.parse(localStorage.getItem("loggedInCustomer"));
+    // Shipping
 
-    const newQuantity = currentQuantity + 1;
+    const shipping = 0;
 
-    fetch(
-        "http://localhost:8080/cart/update/"
-        + cartId
-        + "?quantity="
-        + newQuantity,
-        {
 
-            method: "PUT",
+    // Tax
 
-            headers: {
+    const tax =
+        subtotal * 0.05;
 
-                "Authorization":
-                    "Bearer " + loggedInCustomer.token
 
-            }
+    // Final total
 
-        }
-    )
+    const total =
+        subtotal +
+        shipping +
+        tax;
 
-        .then(response => {
 
-            if (!response.ok) {
+    // =================================================
+    // HTML UPDATE
+    // =================================================
 
-                throw new Error("Quantity update failed");
+    if (subtotalElement) {
 
-            }
+        subtotalElement.textContent =
+            "₹" + subtotal.toFixed(2);
 
-            return response.json();
+    }
 
-        })
 
-        .then(() => {
+    if (shippingElement) {
 
-            loadCart();
+        shippingElement.textContent =
+            "Free";
 
-        })
+    }
 
-        .catch(error => {
 
-            console.error("Quantity Error:", error);
+    if (taxElement) {
 
-        });
+        taxElement.textContent =
+            "₹" + tax.toFixed(2);
+
+    }
+
+
+    if (totalElement) {
+
+        totalElement.textContent =
+            "₹" + total.toFixed(2);
+
+    }
 
 }
 
 
+// =====================================================
+// UPDATE CART BADGE
+// =====================================================
 
-function decreaseQuantity(cartId, currentQuantity) {
+function updateCartBadge(cartItems) {
 
-    if (currentQuantity <= 1) {
+    if (!cartBadge) {
 
         return;
 
     }
 
-    const loggedInCustomer =
-        JSON.parse(localStorage.getItem("loggedInCustomer"));
 
-    const newQuantity = currentQuantity - 1;
+    let totalQuantity = 0;
+
+
+    cartItems.forEach(item => {
+
+        totalQuantity +=
+            Number(item.quantity);
+
+    });
+
+
+    cartBadge.textContent =
+        totalQuantity;
+
+}
+
+
+// =====================================================
+// INCREASE QUANTITY
+// =====================================================
+
+function increaseQuantity(
+    cartId,
+    currentQuantity
+) {
+
+    const newQuantity =
+        Number(currentQuantity) + 1;
+
+
+    updateQuantity(
+        cartId,
+        newQuantity
+    );
+
+}
+
+
+// =====================================================
+// DECREASE QUANTITY
+// =====================================================
+
+function decreaseQuantity(
+    cartId,
+    currentQuantity
+) {
+
+    const quantity =
+        Number(currentQuantity);
+
+
+    if (quantity <= 1) {
+
+        return;
+
+    }
+
+
+    const newQuantity =
+        quantity - 1;
+
+
+    updateQuantity(
+        cartId,
+        newQuantity
+    );
+
+}
+
+
+// =====================================================
+// UPDATE QUANTITY API
+// =====================================================
+
+function updateQuantity(
+    cartId,
+    quantity
+) {
+
+    if (
+        !loggedInCustomer ||
+        !loggedInCustomer.token
+    ) {
+
+        window.location.href =
+            "../Login Page/login.html";
+
+
+        return;
+
+    }
+
+
+    console.log(
+        "Updating Cart:",
+        cartId,
+        quantity
+    );
+
 
     fetch(
-        "http://localhost:8080/cart/update/"
-        + cartId
-        + "?quantity="
-        + newQuantity,
+        cartApi +
+        "/update/" +
+        cartId +
+        "?quantity=" +
+        quantity,
         {
 
             method: "PUT",
@@ -247,49 +775,112 @@ function decreaseQuantity(cartId, currentQuantity) {
             headers: {
 
                 "Authorization":
-                    "Bearer " + loggedInCustomer.token
+                    "Bearer " +
+                    loggedInCustomer.token
 
             }
 
         }
     )
 
+
         .then(response => {
+
+            console.log(
+                "Update Status:",
+                response.status
+            );
+
 
             if (!response.ok) {
 
-                throw new Error("Quantity update failed");
+                throw new Error(
+                    "Quantity update failed"
+                );
 
             }
+
 
             return response.json();
 
         })
 
-        .then(() => {
+
+        .then(updatedCart => {
+
+            console.log(
+                "Updated Cart Item:",
+                updatedCart
+            );
+
+
+            // Reload cart
 
             loadCart();
 
         })
 
+
         .catch(error => {
 
-            console.error("Quantity Error:", error);
+            console.error(
+                "Quantity Update Error:",
+                error
+            );
+
+
+            alert(
+                "Unable to update quantity"
+            );
 
         });
 
 }
 
 
+// =====================================================
+// REMOVE CART ITEM
+// =====================================================
 
-function removeItem(cartId) {
+function removeCartItem(cartId) {
 
-    const loggedInCustomer =
-        JSON.parse(localStorage.getItem("loggedInCustomer"));
+    if (
+        !loggedInCustomer ||
+        !loggedInCustomer.token
+    ) {
+
+        window.location.href =
+            "../Login Page/login.html";
+
+
+        return;
+
+    }
+
+
+    const confirmRemove =
+        confirm(
+            "Are you sure you want to remove this product?"
+        );
+
+
+    if (!confirmRemove) {
+
+        return;
+
+    }
+
+
+    console.log(
+        "Removing Cart ID:",
+        cartId
+    );
+
 
     fetch(
-        "http://localhost:8080/cart/remove/"
-        + cartId,
+        cartApi +
+        "/remove/" +
+        cartId,
         {
 
             method: "DELETE",
@@ -297,122 +888,628 @@ function removeItem(cartId) {
             headers: {
 
                 "Authorization":
-                    "Bearer " + loggedInCustomer.token
+                    "Bearer " +
+                    loggedInCustomer.token
 
             }
 
         }
     )
 
+
         .then(response => {
+
+            console.log(
+                "Remove Status:",
+                response.status
+            );
+
 
             if (!response.ok) {
 
-                throw new Error("Remove failed");
+                throw new Error(
+                    "Remove cart failed"
+                );
 
             }
+
 
             return response.text();
 
         })
 
+
         .then(message => {
 
-            console.log(message);
+            console.log(
+                "Remove Response:",
+                message
+            );
+
+
+            // Reload cart
 
             loadCart();
 
         })
 
+
         .catch(error => {
 
-            console.error("Remove Error:", error);
+            console.error(
+                "Remove Cart Error:",
+                error
+            );
+
+
+            alert(
+                "Unable to remove product"
+            );
 
         });
 
 }
 
 
-// ================= PROCEED TO CHECKOUT =================
+// =====================================================
+// CHECKOUT
+// =====================================================
 
-const checkoutBtn =
-    document.getElementById("checkoutBtn");
+function setupCheckout() {
 
-
-checkoutBtn.addEventListener("click", function () {
-
-    const loggedInCustomer =
-        JSON.parse(localStorage.getItem("loggedInCustomer"));
-
-
-    // Login check
-
-    if (!loggedInCustomer) {
-
-        window.location.href =
-            "../Login Page/login.html";
+    if (!checkoutButton) {
 
         return;
 
     }
 
 
-    // Check whether cart has items
+    checkoutButton.onclick =
+        function () {
 
-    fetch("http://localhost:8080/cart", {
+            // -----------------------------
+            // Login Check
+            // -----------------------------
 
-        method: "GET",
+            if (!loggedInCustomer) {
 
-        headers: {
-
-            "Authorization":
-                "Bearer " + loggedInCustomer.token
-
-        }
-
-    })
-
-    .then(response => {
-
-        if (!response.ok) {
-
-            throw new Error("Unable to check cart");
-
-        }
-
-        return response.json();
-
-    })
-
-    .then(cart => {
-
-        if (cart.length === 0) {
-
-            alert("Your cart is empty!");
-
-            return;
-
-        }
+                window.location.href =
+                    "../Login Page/login.html";
 
 
-        // Cart has products
+                return;
 
-        window.location.href =
-            "../Checkout/checkout.html";
+            }
 
-    })
 
-    .catch(error => {
+            // -----------------------------
+            // Check Cart
+            // -----------------------------
 
-        console.error(
-            "Checkout Error:",
-            error
-        );
+            const totalText =
+                totalElement
+                    ? totalElement.textContent
+                    : "₹0";
 
-        alert(
-            "Unable to proceed to checkout"
-        );
 
-    });
+            const totalValue =
+                parseFloat(
+                    totalText.replace(
+                        "₹",
+                        ""
+                    )
+                );
 
-});
+
+            if (
+                isNaN(totalValue) ||
+                totalValue <= 0
+            ) {
+
+                alert(
+                    "Your cart is empty."
+                );
+
+
+                return;
+
+            }
+
+
+            // -----------------------------
+            // Checkout
+            // -----------------------------
+
+            window.location.href =
+                "../Checkout/checkout.html";
+
+        };
+
+}
+
+
+// =====================================================
+// CONTINUE SHOPPING
+// =====================================================
+
+function goToProducts() {
+
+    window.location.href =
+        "../Product Page/products.html";
+
+}
+
+
+// =====================================================
+// LOGIN MESSAGE
+// =====================================================
+
+function showLoginMessage() {
+
+    if (!cartItemsContainer) {
+
+        return;
+
+    }
+
+
+    cartItemsContainer.innerHTML = `
+
+        <div class="empty-cart">
+
+            <i class="fa-solid fa-user"></i>
+
+            <h2>
+                Please Login
+            </h2>
+
+            <p>
+                Login to view your shopping cart.
+            </p>
+
+            <button
+                onclick="
+                    window.location.href =
+                    '../Login Page/login.html'
+                ">
+
+                Login
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    updateSummary(0);
+
+
+    if (cartBadge) {
+
+        cartBadge.textContent =
+            "0";
+
+    }
+
+}
+
+
+// console.log("Cart JS Loaded");
+
+
+// window.onload = function () {
+
+//     loadCart();
+
+// };
+
+
+// function loadCart() {
+
+//     const loggedInCustomer =
+//         JSON.parse(localStorage.getItem("loggedInCustomer"));
+
+//     if (!loggedInCustomer) {
+
+//         window.location.href =
+//             "../Login Page/login.html";
+
+//         return;
+//     }
+
+
+//     fetch("http://localhost:8080/cart", {
+
+//         method: "GET",
+
+//         headers: {
+
+//             "Authorization":"Bearer " + loggedInCustomer.token
+//         }
+
+//     })
+
+//         .then(response => {
+
+//             if (!response.ok) {
+
+//                 throw new Error("Failed to load cart");
+
+//             }
+
+//             return response.json();
+
+//         })
+
+//         .then(cart => {
+
+//             console.log("Cart:", cart);
+
+//             displayCart(cart);
+
+//         })
+
+//         .catch(error => {
+
+//             console.error("Cart Error:", error);
+
+//         });
+
+// }
+
+
+
+
+// function displayCart(cart) {
+
+//     const cartItems = document.getElementById("cartItems");
+
+//     cartItems.innerHTML = "";
+
+//     if (cart.length === 0) {
+
+//         cartItems.innerHTML = `
+//             <div class="empty-cart">
+//                 <h2>Your Cart is Empty</h2>
+//                 <p>Add some products to your cart.</p>
+//             </div>
+//         `;
+
+//         updateSummary(cart);
+
+//         return;
+//     }
+
+//     cart.forEach(item => {
+
+//         cartItems.innerHTML += `
+
+//         <div class="cart-item">
+
+//             <img src="http://localhost:8080/uploads/${item.imageUrl}">
+
+//             <div class="item-details">
+
+//                 <h3>${item.productName}</h3>
+
+//                 <span class="price">
+//                     ₹${item.price}
+//                 </span>
+
+//             </div>
+
+//             <div class="quantity">
+
+//                 <button onclick="decreaseQuantity(${item.cartId}, ${item.quantity})">
+//                     -
+//                 </button>
+
+//                 <span>${item.quantity}</span>
+
+//                 <button onclick="increaseQuantity(${item.cartId}, ${item.quantity})">
+//                     +
+//                 </button>
+
+//             </div>
+
+//             <div class="total-price">
+
+//                 ₹${item.price * item.quantity}
+
+//             </div>
+
+//             <button
+//                 class="remove-btn"
+//                 onclick="removeItem(${item.cartId})">
+
+//                 🗑
+
+//             </button>
+
+//         </div>
+
+//         `;
+
+//     });
+
+//     updateSummary(cart);
+
+// }
+
+
+
+// function updateSummary(cart) {
+
+//     let subtotal = 0;
+
+//     cart.forEach(item => {
+//         subtotal += item.price * item.quantity;
+
+//     });
+
+//     let tax = subtotal * 0.05;
+
+//     let total = subtotal + tax;
+
+//     document.getElementById("subtotal").textContent =
+//         "₹" + subtotal.toFixed(2);
+
+//     document.getElementById("tax").textContent =
+//         "₹" + tax.toFixed(2);
+
+//     document.getElementById("total").textContent =
+//         "₹" + total.toFixed(2);
+
+// }
+
+
+
+// function increaseQuantity(cartId, currentQuantity) {
+
+//     const loggedInCustomer =
+//         JSON.parse(localStorage.getItem("loggedInCustomer"));
+
+//     const newQuantity = currentQuantity + 1;
+
+//     fetch(
+//         "http://localhost:8080/cart/update/"
+//         + cartId
+//         + "?quantity="
+//         + newQuantity,
+//         {
+
+//             method: "PUT",
+
+//             headers: {
+
+//                 "Authorization":
+//                     "Bearer " + loggedInCustomer.token
+
+//             }
+
+//         }
+//     )
+
+//         .then(response => {
+
+//             if (!response.ok) {
+
+//                 throw new Error("Quantity update failed");
+
+//             }
+
+//             return response.json();
+
+//         })
+
+//         .then(() => {
+
+//             loadCart();
+
+//         })
+
+//         .catch(error => {
+
+//             console.error("Quantity Error:", error);
+
+//         });
+
+// }
+
+
+
+// function decreaseQuantity(cartId, currentQuantity) {
+
+//     if (currentQuantity <= 1) {
+
+//         return;
+
+//     }
+
+//     const loggedInCustomer =
+//         JSON.parse(localStorage.getItem("loggedInCustomer"));
+
+//     const newQuantity = currentQuantity - 1;
+
+//     fetch(
+//         "http://localhost:8080/cart/update/"
+//         + cartId
+//         + "?quantity="
+//         + newQuantity,
+//         {
+
+//             method: "PUT",
+
+//             headers: {
+
+//                 "Authorization":
+//                     "Bearer " + loggedInCustomer.token
+
+//             }
+
+//         }
+//     )
+
+//         .then(response => {
+
+//             if (!response.ok) {
+
+//                 throw new Error("Quantity update failed");
+
+//             }
+
+//             return response.json();
+
+//         })
+
+//         .then(() => {
+
+//             loadCart();
+
+//         })
+
+//         .catch(error => {
+
+//             console.error("Quantity Error:", error);
+
+//         });
+
+// }
+
+
+
+// function removeItem(cartId) {
+
+//     const loggedInCustomer =
+//         JSON.parse(localStorage.getItem("loggedInCustomer"));
+
+//     fetch(
+//         "http://localhost:8080/cart/remove/"
+//         + cartId,
+//         {
+
+//             method: "DELETE",
+
+//             headers: {
+
+//                 "Authorization":
+//                     "Bearer " + loggedInCustomer.token
+
+//             }
+
+//         }
+//     )
+
+//         .then(response => {
+
+//             if (!response.ok) {
+
+//                 throw new Error("Remove failed");
+
+//             }
+
+//             return response.text();
+
+//         })
+
+//         .then(message => {
+
+//             console.log(message);
+
+//             loadCart();
+
+//         })
+
+//         .catch(error => {
+
+//             console.error("Remove Error:", error);
+
+//         });
+
+// }
+
+
+// // ================= PROCEED TO CHECKOUT =================
+
+// const checkoutBtn =
+//     document.getElementById("checkoutBtn");
+
+
+// checkoutBtn.addEventListener("click", function () {
+
+//     const loggedInCustomer =
+//         JSON.parse(localStorage.getItem("loggedInCustomer"));
+
+
+//     // Login check
+
+//     if (!loggedInCustomer) {
+
+//         window.location.href =
+//             "../Login Page/login.html";
+
+//         return;
+
+//     }
+
+
+//     // Check whether cart has items
+
+//     fetch("http://localhost:8080/cart", {
+
+//         method: "GET",
+
+//         headers: {
+
+//             "Authorization":
+//                 "Bearer " + loggedInCustomer.token
+
+//         }
+
+//     })
+
+//     .then(response => {
+
+//         if (!response.ok) {
+
+//             throw new Error("Unable to check cart");
+
+//         }
+
+//         return response.json();
+
+//     })
+
+//     .then(cart => {
+
+//         if (cart.length === 0) {
+
+//             alert("Your cart is empty!");
+
+//             return;
+
+//         }
+
+
+//         // Cart has products
+
+//         window.location.href =
+//             "../Checkout/checkout.html";
+
+//     })
+
+//     .catch(error => {
+
+//         console.error(
+//             "Checkout Error:",
+//             error
+//         );
+
+//         alert(
+//             "Unable to proceed to checkout"
+//         );
+
+//     });
+
+// });

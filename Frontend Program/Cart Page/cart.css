@@ -153,6 +153,32 @@ body {
     background: #7C3E1D;
 }
 
+
+/* ===========================
+   BREADCRUMB
+=========================== */
+
+.breadcrumb{
+    width:100%;
+    background:#EFE8DD;
+    padding:18px 0;
+}
+
+.breadcrumb-container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+}
+
+.breadcrumb a{
+    text-decoration:none;
+    color:#A6572E;
+}
+
+.breadcrumb span{
+    margin:0 8px;
+}
+
 /* ************************************************ cart******************************************************** */
 
 .cart-header {
@@ -274,6 +300,210 @@ body {
 .remove-btn:hover{
     background:red;
     color:white;
+}
+
+/* =====================================================
+   CART ITEM - MATCH WITH JS
+===================================================== */
+
+.cart-item {
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    margin-bottom: 25px;
+}
+
+/* Product Image */
+
+.cart-image img {
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+
+/* Product Information */
+
+.cart-info {
+    flex: 1;
+}
+
+.cart-info h3 {
+    margin-bottom: 10px;
+    color: #2B2420;
+    font-size: 20px;
+}
+
+.cart-price {
+    color: #A6572E;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   QUANTITY BOX
+===================================================== */
+
+.quantity-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    border: 1px solid #E2D8CF;
+    background: #F9F6F2;
+
+    padding: 6px;
+
+    border-radius: 10px;
+}
+
+
+/* + and - buttons */
+
+.quantity-box button {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+
+    background: #A6572E;
+    color: white;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: .3s;
+}
+
+.quantity-box button:hover {
+    background: #7C3E1D;
+}
+
+
+/* Quantity number */
+
+.quantity-box span {
+    min-width: 30px;
+
+    text-align: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    color: #2B2420;
+}
+
+
+/* =====================================================
+   ITEM TOTAL
+===================================================== */
+
+.item-total {
+    width: 120px;
+
+    text-align: center;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    color: #2B2420;
+}
+
+
+/* =====================================================
+   REMOVE BUTTON
+===================================================== */
+
+.remove-btn {
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    background: #FCECEC;
+    color: red;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: .3s;
+}
+
+.remove-btn:hover {
+    background: red;
+    color: white;
+}
+
+
+/* =====================================================
+   EMPTY CART
+===================================================== */
+
+.empty-cart {
+    background: white;
+
+    padding: 60px 30px;
+
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
+
+.empty-cart i {
+    font-size: 50px;
+    color: #A6572E;
+    margin-bottom: 20px;
+}
+
+.empty-cart h2 {
+    margin-bottom: 10px;
+}
+
+.empty-cart p {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.empty-cart button {
+    padding: 12px 25px;
+
+    border: none;
+
+    background: #A6572E;
+    color: white;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+.empty-cart button:hover {
+    background: #7C3E1D;
 }
 
 /* **************************************************************************************** */

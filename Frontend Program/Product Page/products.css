@@ -18,6 +18,31 @@ body {
     color: #2B2420;
 }
 
+/* ===========================
+   BREADCRUMB
+=========================== */
+
+.breadcrumb{
+    width:100%;
+    background:#EFE8DD;
+    padding:18px 0;
+}
+
+.breadcrumb-container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+}
+
+.breadcrumb a{
+    text-decoration:none;
+    color:#A6572E;
+}
+
+.breadcrumb span{
+    margin:0 8px;
+}
+
 
 /* =========================================================
    NAVBAR

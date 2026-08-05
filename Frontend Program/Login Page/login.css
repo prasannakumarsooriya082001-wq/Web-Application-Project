@@ -164,6 +164,32 @@ body{
     background:#7C3E1D;
 }
 
+
+/* ===========================
+   BREADCRUMB
+=========================== */
+
+.breadcrumb{
+    width:100%;
+    background:#EFE8DD;
+    padding:18px 0;
+}
+
+.breadcrumb-container{
+    width:90%;
+    max-width:1300px;
+    margin:auto;
+}
+
+.breadcrumb a{
+    text-decoration:none;
+    color:#A6572E;
+}
+
+.breadcrumb span{
+    margin:0 8px;
+}
+
 /* ===================== LOGIN SECTION ===================== */
 
 .login-section{
@@ -184,6 +210,28 @@ body{
     display:grid;
     grid-template-columns:1fr 1fr;
     box-shadow:0 15px 40px rgba(0,0,0,.1);
+}
+
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    color: #8b5e34;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 20px;
+
+    transition: 0.3s;
+}
+
+.back-home:hover {
+    color: #c4965a;
+    transform: translateX(-3px);
 }
 
 /* ===================== LEFT ===================== */

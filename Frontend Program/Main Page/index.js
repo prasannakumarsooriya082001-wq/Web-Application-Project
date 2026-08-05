@@ -5,7 +5,8 @@ console.log("Main Page JS Loaded");
 // LOGGED IN CUSTOMER
 // =====================================================
 
-const loggedInCustomer = JSON.parse(localStorage.getItem("loggedInCustomer"));
+let loggedInCustomer =
+    JSON.parse(localStorage.getItem("loggedInCustomer"));
 
 
 // =====================================================
@@ -61,6 +62,10 @@ function setupNavbar() {
 
         console.log("Guest User");
 
+        // -----------------------------
+        // Login Button
+        // -----------------------------
+
         if (loginButton) {
 
             loginButton.textContent = "Login";
@@ -74,6 +79,10 @@ function setupNavbar() {
 
         }
 
+
+        // -----------------------------
+        // Sign Up Button
+        // -----------------------------
 
         if (signUpButton) {
 
@@ -89,7 +98,6 @@ function setupNavbar() {
         }
 
         return;
-
     }
 
 
@@ -103,9 +111,21 @@ function setupNavbar() {
     );
 
 
-    // -----------------------------
-    // Profile Button
-    // -----------------------------
+    console.log(
+        "Customer First Name:",
+        loggedInCustomer.firstName
+    );
+
+
+    console.log(
+        "Customer Email:",
+        loggedInCustomer.email
+    );
+
+
+    // =================================================
+    // PROFILE / NAME BUTTON
+    // =================================================
 
     if (loginButton) {
 
@@ -125,9 +145,9 @@ function setupNavbar() {
     }
 
 
-    // -----------------------------
-    // Logout Button
-    // -----------------------------
+    // =================================================
+    // LOGOUT BUTTON
+    // =================================================
 
     if (signUpButton) {
 
@@ -139,6 +159,7 @@ function setupNavbar() {
             localStorage.removeItem(
                 "loggedInCustomer"
             );
+
 
             window.location.href =
                 "../Main Page/index.html";
@@ -158,17 +179,28 @@ function setupNavbar() {
 
 
 // =====================================================
-// VERIFY CUSTOMER
+// VERIFY CUSTOMER JWT
 // =====================================================
 
 function verifyCustomer() {
 
-    if (!loggedInCustomer ||
-        !loggedInCustomer.token) {
+    if (
+        !loggedInCustomer ||
+        !loggedInCustomer.token
+    ) {
+
+        console.log(
+            "No JWT token found"
+        );
 
         return;
 
     }
+
+
+    console.log(
+        "Verifying JWT..."
+    );
 
 
     fetch(
@@ -191,6 +223,12 @@ function verifyCustomer() {
 
         .then(response => {
 
+            console.log(
+                "Profile API Status:",
+                response.status
+            );
+
+
             if (!response.ok) {
 
                 throw new Error(
@@ -199,9 +237,25 @@ function verifyCustomer() {
 
             }
 
-            return response.json();
+
+            /*
+             * IMPORTANT:
+             *
+             * Your backend /customer/profile
+             * returns String, not JSON.
+             *
+             * Backend:
+             *
+             * return "Email: " + email
+             *        + ", Role: " + role;
+             *
+             * Therefore use response.text()
+             */
+
+            return response.text();
 
         })
+
 
         .then(profile => {
 
@@ -212,6 +266,7 @@ function verifyCustomer() {
 
         })
 
+
         .catch(error => {
 
             console.error(
@@ -220,16 +275,30 @@ function verifyCustomer() {
             );
 
 
+            // Remove invalid login
+
             localStorage.removeItem(
                 "loggedInCustomer"
             );
 
 
-            // Guest mode continue
+            loggedInCustomer = null;
+
+
+            // Change navbar to guest mode
+
             if (loginButton) {
 
                 loginButton.textContent =
                     "Login";
+
+
+                loginButton.onclick = function () {
+
+                    window.location.href =
+                        "../Login Page/login.html";
+
+                };
 
             }
 
@@ -238,6 +307,14 @@ function verifyCustomer() {
 
                 signUpButton.textContent =
                     "Sign Up";
+
+
+                signUpButton.onclick = function () {
+
+                    window.location.href =
+                        "../Register Page/register.html";
+
+                };
 
             }
 
@@ -257,7 +334,9 @@ function loadFeaturedProducts() {
     );
 
 
-    fetch(productApi + "/getAll")
+    fetch(
+        productApi + "/getAll"
+    )
 
         .then(response => {
 
@@ -280,6 +359,7 @@ function loadFeaturedProducts() {
 
         })
 
+
         .then(products => {
 
             console.log(
@@ -288,7 +368,7 @@ function loadFeaturedProducts() {
             );
 
 
-            // First 4 products only
+            // First 4 products
 
             const featuredProducts =
                 products.slice(0, 4);
@@ -299,6 +379,7 @@ function loadFeaturedProducts() {
             );
 
         })
+
 
         .catch(error => {
 
@@ -318,11 +399,11 @@ function loadFeaturedProducts() {
 
                 productGrid.innerHTML = `
 
-                    <p>
-                        Unable to load products.
-                    </p>
+                <p>
+                    Unable to load products.
+                </p>
 
-                `;
+            `;
 
             }
 
@@ -344,6 +425,10 @@ function displayFeaturedProducts(products) {
 
 
     if (!productGrid) {
+
+        console.log(
+            "productGrid element not found"
+        );
 
         return;
 
@@ -374,12 +459,18 @@ function displayFeaturedProducts(products) {
 
             <div class="product-card">
 
+                <!-- Wishlist -->
+
                 <button
                     class="wishlist"
                     onclick="openWishlist(${product.productId})">
+
                     ❤
+
                 </button>
 
+
+                <!-- Product Image -->
 
                 <a
                     href="../Product Details Page/product-details.html?id=${product.productId}">
@@ -390,6 +481,8 @@ function displayFeaturedProducts(products) {
 
                 </a>
 
+
+                <!-- Product Name -->
 
                 <h3>
 
@@ -403,12 +496,16 @@ function displayFeaturedProducts(products) {
                 </h3>
 
 
+                <!-- Rating -->
+
                 <div class="rating">
 
                     ⭐⭐⭐⭐⭐
 
                 </div>
 
+
+                <!-- Price -->
 
                 <div class="price">
 
@@ -420,6 +517,8 @@ function displayFeaturedProducts(products) {
 
                 </div>
 
+
+                <!-- Add To Cart -->
 
                 <button
                     class="cart-btn"
@@ -439,7 +538,7 @@ function displayFeaturedProducts(products) {
 
 
 // =====================================================
-// ADD TO CART
+// ADD PRODUCT TO CART
 // =====================================================
 
 function addProductToCart(productId) {
@@ -452,9 +551,9 @@ function addProductToCart(productId) {
         );
 
 
-    // -----------------------------
-    // Not logged in
-    // -----------------------------
+    // =================================================
+    // USER NOT LOGGED IN
+    // =================================================
 
     if (!customer) {
 
@@ -467,7 +566,7 @@ function addProductToCart(productId) {
 
 
     console.log(
-        "Product ID:",
+        "Adding Product To Cart:",
         productId
     );
 
@@ -492,7 +591,14 @@ function addProductToCart(productId) {
 
     )
 
+
         .then(response => {
+
+            console.log(
+                "Cart API Status:",
+                response.status
+            );
+
 
             if (!response.ok) {
 
@@ -507,6 +613,7 @@ function addProductToCart(productId) {
 
         })
 
+
         .then(cartItem => {
 
             console.log(
@@ -520,6 +627,7 @@ function addProductToCart(productId) {
             );
 
         })
+
 
         .catch(error => {
 
@@ -551,6 +659,10 @@ function openWishlist(productId) {
             )
         );
 
+
+    // =================================================
+    // NOT LOGGED IN
+    // =================================================
 
     if (!customer) {
 
@@ -598,9 +710,9 @@ function setupButtons() {
         );
 
 
-    // -----------------------------
-    // Shop Now
-    // -----------------------------
+    // =================================================
+    // SHOP NOW
+    // =================================================
 
     if (shopButton) {
 
@@ -614,9 +726,9 @@ function setupButtons() {
     }
 
 
-    // -----------------------------
-    // Explore Collection
-    // -----------------------------
+    // =================================================
+    // EXPLORE COLLECTION
+    // =================================================
 
     if (exploreButton) {
 
@@ -630,9 +742,9 @@ function setupButtons() {
     }
 
 
-    // -----------------------------
-    // View All Products
-    // -----------------------------
+    // =================================================
+    // VIEW ALL PRODUCTS
+    // =================================================
 
     if (viewAllButton) {
 
@@ -646,9 +758,9 @@ function setupButtons() {
     }
 
 
-    // -----------------------------
-    // Cart
-    // -----------------------------
+    // =================================================
+    // CART BUTTON
+    // =================================================
 
     if (cartButton) {
 
@@ -662,6 +774,10 @@ function setupButtons() {
                 );
 
 
+            // -----------------------------
+            // Not logged in
+            // -----------------------------
+
             if (!customer) {
 
                 window.location.href =
@@ -671,6 +787,10 @@ function setupButtons() {
 
             }
 
+
+            // -----------------------------
+            // Logged in
+            // -----------------------------
 
             window.location.href =
                 "../Cart Page/cart.html";
